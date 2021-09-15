@@ -14,32 +14,18 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.events;
+import fr.kokhaviel.api.github.GithubAPI;
 
-import com.google.gson.JsonArray;
+public class WatchAndStarsTests {
 
-import java.util.ArrayList;
-import java.util.List;
+	public static void main(String[] args) {
 
-import static fr.kokhaviel.api.github.GithubAPI.GSON;
+		GithubAPI.getRepoStargazers("Kokhaviel", "Mee7").getStargazers().forEach(stargazer -> System.out.println(stargazer.getLogin()));
 
-public class Events {
+		GithubAPI.getRepoStarred("Kokhaviel").getStars().forEach(star -> System.out.println(star.getFullName()));
 
-	final JsonArray eventsArray;
+		GithubAPI.getRepoWatchers("torvalds", "linux").getWatchers().forEach(watcher -> System.out.println(watcher.getLogin()));
 
-	List<Event> events = new ArrayList<>();
-
-	public Events(JsonArray jsonArray) {
-		this.eventsArray = jsonArray;
-
-		eventsArray.forEach(jsonEvent -> events.add(GSON.fromJson(jsonEvent, Event.class)));
-	}
-
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public Event getEvent(int eventIndex) {
-		return events.get(eventIndex);
+		GithubAPI.getWatchingRepo("Kokhaviel").getWatches().forEach(watch -> System.out.println(watch.getFullName()));
 	}
 }

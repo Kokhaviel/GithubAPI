@@ -14,32 +14,33 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.events;
+package fr.kokhaviel.api.github.watchers.watching;
 
 import com.google.gson.JsonArray;
+import fr.kokhaviel.api.github.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Events {
+public class Watchers {
 
-	final JsonArray eventsArray;
+	final JsonArray watchersArray;
 
-	List<Event> events = new ArrayList<>();
+	List<User> watchers = new ArrayList<>();
 
-	public Events(JsonArray jsonArray) {
-		this.eventsArray = jsonArray;
+	public Watchers(JsonArray jsonArray) {
+		this.watchersArray = jsonArray;
 
-		eventsArray.forEach(jsonEvent -> events.add(GSON.fromJson(jsonEvent, Event.class)));
+		watchersArray.forEach(jsonEvent -> watchers.add(GSON.fromJson(jsonEvent, User.class)));
 	}
 
-	public List<Event> getEvents() {
-		return events;
+	public List<User> getWatchers() {
+		return watchers;
 	}
 
-	public Event getEvent(int eventIndex) {
-		return events.get(eventIndex);
+	public User getWatcher(int eventIndex) {
+		return watchers.get(eventIndex);
 	}
 }
