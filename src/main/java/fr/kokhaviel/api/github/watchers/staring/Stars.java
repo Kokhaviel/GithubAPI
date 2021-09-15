@@ -14,32 +14,34 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.events;
+package fr.kokhaviel.api.github.watchers.staring;
 
 import com.google.gson.JsonArray;
+import fr.kokhaviel.api.github.Repo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Events {
+public class Stars {
 
-	final JsonArray eventsArray;
+	final JsonArray starsArray;
 
-	List<Event> events = new ArrayList<>();
+	List<Repo> stars = new ArrayList<>();
 
-	public Events(JsonArray jsonArray) {
-		this.eventsArray = jsonArray;
+	public Stars(JsonArray jsonArray) {
+		this.starsArray = jsonArray;
 
-		eventsArray.forEach(jsonEvent -> events.add(GSON.fromJson(jsonEvent, Event.class)));
+		starsArray.forEach(jsonEvent -> stars.add(GSON.fromJson(jsonEvent, Repo.class)));
 	}
 
-	public List<Event> getEvents() {
-		return events;
+	public List<Repo> getStars() {
+		return stars;
 	}
 
-	public Event getEvent(int eventIndex) {
-		return events.get(eventIndex);
+	public Repo getStar(int eventIndex) {
+		return stars.get(eventIndex);
 	}
+
 }

@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.events;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Event {
+public class OrgEvent {
 
 	@SerializedName("id")
 	String id;
@@ -27,16 +27,20 @@ public class Event {
 	String type;
 
 	@SerializedName("actor")
-	Author author;
+	Event.Author author;
 
 	@SerializedName("repo")
-	Repo repo;
+	Event.Repo repo;
 
 	@SerializedName("public")
 	boolean _public;
 
 	@SerializedName("created_at")
 	String creation;
+
+	@SerializedName("org")
+	Event.Author organisation = new Event.Author();
+	//Fields are same for Author Event and Org Event
 
 
 	public String getId() {
@@ -47,11 +51,11 @@ public class Event {
 		return type;
 	}
 
-	public Author getAuthor() {
+	public Event.Author getAuthor() {
 		return author;
 	}
 
-	public Repo getRepo() {
+	public Event.Repo getRepo() {
 		return repo;
 	}
 
@@ -63,61 +67,9 @@ public class Event {
 		return creation;
 	}
 
-
-	public static class Author {
-
-		@SerializedName("id")
-		String id = "";
-
-		@SerializedName("login")
-		String login = "";
-
-		@SerializedName("display_login")
-		String displayLogin = "";
-
-		@SerializedName("avatar_url")
-		String avatar = "";
-
-
-		public String getId() {
-			return id;
-		}
-
-		public String getLogin() {
-			return login;
-		}
-
-		public String getDisplayLogin() {
-			return displayLogin;
-		}
-
-		public String getAvatar() {
-			return avatar;
-		}
+	public Event.Author getOrganisation() {
+		return organisation;
 	}
 
-	public static class Repo {
-
-		@SerializedName("id")
-		String id = "";
-
-		@SerializedName("name")
-		String name = "";
-
-		@SerializedName("url")
-		String url = "";
-
-
-		public String getId() {
-			return id;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public String getUrl() {
-			return url;
-		}
-	}
 }
+

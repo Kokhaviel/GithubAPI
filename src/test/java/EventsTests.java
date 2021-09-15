@@ -14,32 +14,16 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.events;
+import fr.kokhaviel.api.github.GithubAPI;
 
-import com.google.gson.JsonArray;
+public class EventsTests {
 
-import java.util.ArrayList;
-import java.util.List;
+	public static void main(String[] args) {
 
-import static fr.kokhaviel.api.github.GithubAPI.GSON;
+		GithubAPI.getAccountEvents("Kokhaviel").getEvents().forEach(event -> System.out.println(event.getType()));
 
-public class Events {
+		GithubAPI.getRepoEvents("Kokhaviel", "HypixelAPI").getEvents().forEach(event -> System.out.println(event.getType()));
 
-	final JsonArray eventsArray;
-
-	List<Event> events = new ArrayList<>();
-
-	public Events(JsonArray jsonArray) {
-		this.eventsArray = jsonArray;
-
-		eventsArray.forEach(jsonEvent -> events.add(GSON.fromJson(jsonEvent, Event.class)));
-	}
-
-	public List<Event> getEvents() {
-		return events;
-	}
-
-	public Event getEvent(int eventIndex) {
-		return events.get(eventIndex);
+		GithubAPI.getOrganisationEvents("DROPCitizenShip").getEvents().forEach(event -> System.out.println(event.getType()));
 	}
 }

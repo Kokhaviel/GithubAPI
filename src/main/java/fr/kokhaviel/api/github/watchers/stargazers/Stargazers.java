@@ -14,32 +14,33 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.events;
+package fr.kokhaviel.api.github.watchers.stargazers;
 
 import com.google.gson.JsonArray;
+import fr.kokhaviel.api.github.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Events {
+public class Stargazers {
 
-	final JsonArray eventsArray;
+	final JsonArray stargazersArray;
 
-	List<Event> events = new ArrayList<>();
+	List<User> stargazers = new ArrayList<>();
 
-	public Events(JsonArray jsonArray) {
-		this.eventsArray = jsonArray;
+	public Stargazers(JsonArray jsonArray) {
+		this.stargazersArray = jsonArray;
 
-		eventsArray.forEach(jsonEvent -> events.add(GSON.fromJson(jsonEvent, Event.class)));
+		stargazersArray.forEach(jsonEvent -> stargazers.add(GSON.fromJson(jsonEvent, User.class)));
 	}
 
-	public List<Event> getEvents() {
-		return events;
+	public List<User> getStargazers() {
+		return stargazers;
 	}
 
-	public Event getEvent(int eventIndex) {
-		return events.get(eventIndex);
+	public User getStargazer(int eventIndex) {
+		return stargazers.get(eventIndex);
 	}
 }
