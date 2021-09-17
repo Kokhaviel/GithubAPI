@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import fr.kokhaviel.api.github.actions.artifacts.Artifact;
 import fr.kokhaviel.api.github.actions.artifacts.Artifacts;
 import fr.kokhaviel.api.github.actions.workflows.WorkFlows;
+import fr.kokhaviel.api.github.apps.App;
 import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
@@ -183,6 +184,25 @@ public class GithubAPI {
 	}
 
 	//--- END Repository Actions Data Fetch
+
+	//--- GitHub Apps Data Fetch
+
+	public static App getApp(String appName) {
+		String githubUrl = format("https://api.github.com/apps/%s", appName);
+
+		App app = new App();
+
+		try {
+			app = GithubAPI.get(githubUrl, App.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return app;
+	}
+
+
+	//--- END GitHub Apps Data Fetch
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
