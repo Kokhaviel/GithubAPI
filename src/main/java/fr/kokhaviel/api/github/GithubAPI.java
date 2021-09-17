@@ -23,6 +23,7 @@ import fr.kokhaviel.api.github.actions.artifacts.Artifact;
 import fr.kokhaviel.api.github.actions.artifacts.Artifacts;
 import fr.kokhaviel.api.github.actions.workflows.WorkFlows;
 import fr.kokhaviel.api.github.apps.App;
+import fr.kokhaviel.api.github.coc.CodeOfConduct;
 import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
@@ -31,6 +32,8 @@ import fr.kokhaviel.api.github.watchers.staring.Stars;
 import fr.kokhaviel.api.github.watchers.watching.Watchers;
 import fr.kokhaviel.api.github.watchers.watching.Watching;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -137,9 +140,9 @@ public class GithubAPI {
 
 		return new Watching(githubEventsObject);
 	}
-	//--- END Watchers an Stargazers Data Fetch
+	//--- END Watchers an Stargazers Data Fetch ---
 
-	//--- Repository Actions Data Fetch
+	//--- Repository Actions Data Fetch ---
 
 	public static Artifacts getRepoArtifacts(String account, String repo) {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts", account, repo);
@@ -183,9 +186,9 @@ public class GithubAPI {
 		return workFlows;
 	}
 
-	//--- END Repository Actions Data Fetch
+	//--- END Repository Actions Data Fetch ---
 
-	//--- GitHub Apps Data Fetch
+	//--- GitHub Apps Data Fetch ---
 
 	public static App getApp(String appName) {
 		String githubUrl = format("https://api.github.com/apps/%s", appName);
@@ -201,8 +204,19 @@ public class GithubAPI {
 		return app;
 	}
 
+	//--- END GitHub Apps Data Fetch ---
 
-	//--- END GitHub Apps Data Fetch
+	//--- Codes Of Conducts Fetch ---
+
+	public static CodeOfConduct getCodeOfConduct(String account, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/community/code_of_conduct", account, repo);
+
+		JsonObject githubObject = IOUtils.getPreviewGithubContent(githubUrl, 100000);
+
+		return GSON.fromJson(githubObject, CodeOfConduct.class);
+	}
+
+	//--- END Codes Of Conducts
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();

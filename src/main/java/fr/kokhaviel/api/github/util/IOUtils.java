@@ -18,6 +18,7 @@ package fr.kokhaviel.api.github.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
@@ -73,6 +74,49 @@ public class IOUtils {
 
 		return element;
 	}
+
+	public static JsonObject getPreviewGithubContent(String url, int timeout) {
+		HttpURLConnection c = null;
+		try {
+			URL u = new URL(url);
+			c = (HttpURLConnection) u.openConnection();
+			c.setRequestMethod("GET");
+			c.setRequestProperty("Content-length", "0");
+			c.setRequestProperty("Accept", "application/vnd.github.scarlet-witch-preview+json");
+			c.setUseCaches(false);
+			c.setAllowUserInteraction(false);
+			c.setConnectTimeout(timeout);
+			c.setReadTimeout(timeout);
+			c.connect();
+			int status = c.getResponseCode();
+
+			switch(status) {
+				case 200:
+				case 201:
+					BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+					StringBuilder sb = new StringBuilder();
+					String line;
+					while((line = br.readLine()) != null) {
+						sb.append(line).append("\n");
+					}
+					br.close();
+					return JsonParser.parseString(sb.toString()).getAsJsonObject();
+			}
+
+		} catch(IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if(c != null) {
+				try {
+					c.disconnect();
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		return new JsonObject();
+	}
+
 
 	private static InputStream catchForbidden(URL url) throws IOException {
 
