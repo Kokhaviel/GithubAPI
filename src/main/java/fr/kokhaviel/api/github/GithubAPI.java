@@ -19,6 +19,9 @@ package fr.kokhaviel.api.github;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import fr.kokhaviel.api.github.actions.artifacts.Artifact;
+import fr.kokhaviel.api.github.actions.artifacts.Artifacts;
+import fr.kokhaviel.api.github.actions.workflows.WorkFlows;
 import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
@@ -135,6 +138,51 @@ public class GithubAPI {
 	}
 	//--- END Watchers an Stargazers Data Fetch
 
+	//--- Repository Actions Data Fetch
+
+	public static Artifacts getRepoArtifacts(String account, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts", account, repo);
+
+		Artifacts artifacts = new Artifacts();
+
+		try {
+			artifacts = GithubAPI.get(githubUrl, Artifacts.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return artifacts;
+	}
+
+	public static Artifact getRepoArtifact(String account, String repo, int artifactId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts/%s", account, repo, artifactId);
+
+		Artifact artifact = new Artifact();
+
+		try {
+			artifact = GithubAPI.get(githubUrl, Artifact.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return artifact;
+	}
+
+	public static WorkFlows getRepoWorkFlows(String account, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/workflows", account, repo);
+
+		WorkFlows workFlows = new WorkFlows();
+
+		try {
+			workFlows = GithubAPI.get(githubUrl, WorkFlows.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return workFlows;
+	}
+
+	//--- END Repository Actions Data Fetch
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
