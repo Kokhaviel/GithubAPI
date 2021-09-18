@@ -24,6 +24,7 @@ import fr.kokhaviel.api.github.actions.artifacts.Artifacts;
 import fr.kokhaviel.api.github.actions.workflows.WorkFlows;
 import fr.kokhaviel.api.github.apps.App;
 import fr.kokhaviel.api.github.coc.CodeOfConduct;
+import fr.kokhaviel.api.github.emojis.Emojis;
 import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
@@ -216,7 +217,25 @@ public class GithubAPI {
 		return GSON.fromJson(githubObject, CodeOfConduct.class);
 	}
 
-	//--- END Codes Of Conducts
+	//--- END Codes Of Conducts ---
+
+	//--- Emojis Data ---
+
+	public static Emojis getEmojisData() {
+		String githubUrl = "https://api.github.com/emojis";
+
+		JsonObject emojisObject = new JsonObject();
+
+		try {
+			emojisObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonObject();
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return new Emojis(emojisObject);
+	}
+
+	//--- END Emojis Data
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
