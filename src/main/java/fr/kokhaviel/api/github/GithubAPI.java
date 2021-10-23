@@ -24,6 +24,7 @@ import fr.kokhaviel.api.github.actions.artifacts.Artifacts;
 import fr.kokhaviel.api.github.actions.workflows.WorkFlows;
 import fr.kokhaviel.api.github.apps.App;
 import fr.kokhaviel.api.github.coc.CodeOfConduct;
+import fr.kokhaviel.api.github.commits.Commit;
 import fr.kokhaviel.api.github.emojis.Emojis;
 import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.gists.Gist;
@@ -35,15 +36,13 @@ import fr.kokhaviel.api.github.watchers.staring.Stars;
 import fr.kokhaviel.api.github.watchers.watching.Watchers;
 import fr.kokhaviel.api.github.watchers.watching.Watching;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import static java.lang.String.format;
 
 public class GithubAPI {
-
+//TODO : ALL toString() OVERRIDE
 	public static final Gson GSON = new Gson();
 
 	//--- Events Data Fetch ---
@@ -269,6 +268,25 @@ public class GithubAPI {
 		return new Gist(gistObject);
 	}
 	//--- END Gists Data Fetch ---
+
+	//--- Commit Data Fetch ---
+
+	public static Commit getCommit(String owner, String repo, String sha) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/git/commits/%s", owner, repo, sha);
+
+
+		Commit commit = new Commit();
+
+		try {
+			commit = GithubAPI.get(githubUrl, Commit.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return commit;
+	}
+
+	//--- END Commit Data Fetch ---
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
