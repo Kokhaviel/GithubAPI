@@ -29,6 +29,7 @@ import fr.kokhaviel.api.github.emojis.Emojis;
 import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.gists.Gist;
 import fr.kokhaviel.api.github.gists.Gists;
+import fr.kokhaviel.api.github.gitignore.Gitignore;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 import fr.kokhaviel.api.github.watchers.stargazers.Stargazers;
@@ -44,8 +45,6 @@ import static java.lang.String.format;
 public class GithubAPI {
 //TODO : ALL toString() OVERRIDE
 	public static final Gson GSON = new Gson();
-
-	//--- Events Data Fetch ---
 
 	public static Events getAccountEvents(String accountName) {
 		String githubUrl = format("https://api.github.com/users/%s/events", accountName);
@@ -85,11 +84,6 @@ public class GithubAPI {
 
 		return new Events(githubEventsObject);
 	}
-
-	//--- END Events Data Fetch ---
-
-
-	//--- Watchers and Stargazers Data Fetch ---
 
 	public static Stargazers getRepoStargazers(String account, String repo) {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/stargazers", account, repo);
@@ -142,9 +136,6 @@ public class GithubAPI {
 
 		return new Watching(githubEventsObject);
 	}
-	//--- END Watchers an Stargazers Data Fetch ---
-
-	//--- Repository Actions Data Fetch ---
 
 	public static Artifacts getRepoArtifacts(String account, String repo) {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts", account, repo);
@@ -188,10 +179,6 @@ public class GithubAPI {
 		return workFlows;
 	}
 
-	//--- END Repository Actions Data Fetch ---
-
-	//--- GitHub Apps Data Fetch ---
-
 	public static App getApp(String appName) {
 		String githubUrl = format("https://api.github.com/apps/%s", appName);
 
@@ -206,10 +193,6 @@ public class GithubAPI {
 		return app;
 	}
 
-	//--- END GitHub Apps Data Fetch ---
-
-	//--- Codes Of Conducts Fetch ---
-
 	public static CodeOfConduct getCodeOfConduct(String account, String repo) {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/community/code_of_conduct", account, repo);
 
@@ -217,10 +200,6 @@ public class GithubAPI {
 
 		return GSON.fromJson(githubObject, CodeOfConduct.class);
 	}
-
-	//--- END Codes Of Conducts ---
-
-	//--- Emojis Data ---
 
 	public static Emojis getEmojisData() {
 		String githubUrl = "https://api.github.com/emojis";
@@ -235,10 +214,6 @@ public class GithubAPI {
 
 		return new Emojis(emojisObject);
 	}
-
-	//--- END Emojis Data ---
-
-	//--- Gists Data Fetch ---
 
 	public static Gists getGists() {
 		String githubUrl = "https://api.github.com/gists";
@@ -267,9 +242,6 @@ public class GithubAPI {
 
 		return new Gist(gistObject);
 	}
-	//--- END Gists Data Fetch ---
-
-	//--- Commit Data Fetch ---
 
 	public static Commit getCommit(String owner, String repo, String sha) {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/git/commits/%s", owner, repo, sha);
@@ -286,7 +258,19 @@ public class GithubAPI {
 		return commit;
 	}
 
-	//--- END Commit Data Fetch ---
+	public static Gitignore getGitignore(String language) {
+		String githubUrl = format("https://api.github.com/gitignore/templates/%s", language);
+
+		Gitignore gitignore = new Gitignore();
+
+		try {
+			gitignore = GithubAPI.get(githubUrl, Gitignore.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return gitignore;
+	}
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
