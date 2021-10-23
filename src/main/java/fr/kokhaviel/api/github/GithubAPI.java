@@ -26,6 +26,8 @@ import fr.kokhaviel.api.github.apps.App;
 import fr.kokhaviel.api.github.coc.CodeOfConduct;
 import fr.kokhaviel.api.github.emojis.Emojis;
 import fr.kokhaviel.api.github.events.Events;
+import fr.kokhaviel.api.github.gists.Gist;
+import fr.kokhaviel.api.github.gists.Gists;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 import fr.kokhaviel.api.github.watchers.stargazers.Stargazers;
@@ -235,7 +237,38 @@ public class GithubAPI {
 		return new Emojis(emojisObject);
 	}
 
-	//--- END Emojis Data
+	//--- END Emojis Data ---
+
+	//--- Gists Data Fetch ---
+
+	public static Gists getGists() {
+		String githubUrl = "https://api.github.com/gists";
+
+		JsonArray gists = new JsonArray();
+
+		try {
+			gists = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return new Gists(gists);
+	}
+
+	public static Gist getGist(String id) {
+		String githubUrl = "https://api.github.com/gists/" + id;
+
+		JsonObject gistObject = new JsonObject();
+
+		try {
+			gistObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonObject();
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return new Gist(gistObject);
+	}
+	//--- END Gists Data Fetch ---
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
