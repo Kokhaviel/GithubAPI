@@ -36,6 +36,8 @@ import fr.kokhaviel.api.github.issues.Label;
 import fr.kokhaviel.api.github.licenses.License;
 import fr.kokhaviel.api.github.licenses.Licenses;
 import fr.kokhaviel.api.github.licenses.RepoLicense;
+import fr.kokhaviel.api.github.meta.APILinks;
+import fr.kokhaviel.api.github.meta.ServerMeta;
 import fr.kokhaviel.api.github.milestones.Milestone;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
@@ -445,6 +447,34 @@ public class GithubAPI {
 		}
 
 		return license;
+	}
+
+	public static APILinks getAPILinks() {
+		String githubUrl = "https://api.github.com/";
+
+		APILinks links = new APILinks();
+
+		try {
+			links = GithubAPI.get(githubUrl, APILinks.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return links;
+	}
+
+	public static ServerMeta getServerMeta() {
+		String githubUrl = "https://api.github.com/meta";
+
+		ServerMeta meta = new ServerMeta();
+
+		try {
+			meta = GithubAPI.get(githubUrl, ServerMeta.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return meta;
 	}
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
