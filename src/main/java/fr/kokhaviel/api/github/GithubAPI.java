@@ -30,6 +30,10 @@ import fr.kokhaviel.api.github.events.Events;
 import fr.kokhaviel.api.github.gists.Gist;
 import fr.kokhaviel.api.github.gists.Gists;
 import fr.kokhaviel.api.github.gitignore.Gitignore;
+import fr.kokhaviel.api.github.issues.Comment;
+import fr.kokhaviel.api.github.issues.Issue;
+import fr.kokhaviel.api.github.issues.Label;
+import fr.kokhaviel.api.github.milestones.Milestone;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 import fr.kokhaviel.api.github.watchers.stargazers.Stargazers;
@@ -272,8 +276,139 @@ public class GithubAPI {
 		return gitignore;
 	}
 
+	public static Issue[] getIssues(String owner, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues", owner, repo);
+
+		Issue[] issues = new Issue[]{};
+
+		try {
+			issues = GithubAPI.getArray(githubUrl, Issue[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return issues;
+	}
+
+	public static Issue getIssue(String owner, String repo, String issueId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/%s", owner, repo, issueId);
+
+		Issue issue = new Issue();
+
+		try {
+			issue = GithubAPI.get(githubUrl, Issue.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return issue;
+	}
+
+	public static Comment[] getComments(String owner, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/comments", owner, repo);
+
+		Comment[] comments = new Comment[]{};
+
+		try {
+			comments = GithubAPI.getArray(githubUrl, Comment[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return comments;
+	}
+
+	public static Comment getComment(String owner, String repo, String commentId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/comments/%s", owner, repo, commentId);
+
+		Comment comment = new Comment();
+
+		try {
+			comment = GithubAPI.get(githubUrl, Comment.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return comment;
+	}
+
+	public static Label[] getIssueLabels(String owner, String repo, String issueId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/%s/labels", owner, repo, issueId);
+
+		Label[] labels = new Label[]{};
+
+		try {
+			labels = GithubAPI.getArray(githubUrl, Label[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return labels;
+	}
+
+	public static Label[] getRepoLabels(String owner, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/labels", owner, repo);
+
+		Label[] labels = new Label[]{};
+
+		try {
+			labels = GithubAPI.getArray(githubUrl, Label[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return labels;
+	}
+
+	public static Label getLabel(String owner, String repo, String labelName) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/labels/%s", owner, repo, labelName);
+
+		Label label = new Label();
+
+		try {
+			label = GithubAPI.get(githubUrl, Label.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return label;
+	}
+
+	public static Milestone[] getRepoMilestones(String owner, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/milestones", owner, repo);
+
+		Milestone[] milestones = new Milestone[]{};
+
+		try {
+			milestones = GithubAPI.getArray(githubUrl, Milestone[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return milestones;
+	}
+
+	public static Milestone getMilestone(String owner, String repo, String milestoneId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/milestones/%s", owner, repo, milestoneId);
+
+		Milestone milestones = new Milestone();
+
+		try {
+			milestones = GithubAPI.get(githubUrl, Milestone.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return milestones;
+	}
+
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();
+		return GSON.fromJson(githubObject, classOfT);
+	}
+
+	private static <T> T[] getArray(String url, Class<T[]> classOfT) throws IllegalStateException, MalformedURLException {
+		JsonArray githubObject = IOUtils.readJson(new URL(url)).getAsJsonArray();
 		return GSON.fromJson(githubObject, classOfT);
 	}
 
