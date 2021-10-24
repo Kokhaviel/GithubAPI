@@ -39,6 +39,8 @@ import fr.kokhaviel.api.github.licenses.RepoLicense;
 import fr.kokhaviel.api.github.meta.APILinks;
 import fr.kokhaviel.api.github.meta.ServerMeta;
 import fr.kokhaviel.api.github.milestones.Milestone;
+import fr.kokhaviel.api.github.orgs.Organization;
+import fr.kokhaviel.api.github.orgs.UserOrg;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 import fr.kokhaviel.api.github.watchers.stargazers.Stargazers;
@@ -475,6 +477,48 @@ public class GithubAPI {
 		}
 
 		return meta;
+	}
+
+	public static Organization getOrganization(String orgName) {
+		String githubUrl = format("https://api.github.com/orgs/%s", orgName);
+
+		Organization org = new Organization();
+
+		try {
+			org = GithubAPI.get(githubUrl, Organization.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return org;
+	}
+
+	public static UserOrg[] getUserOrgs(String user) {
+		String githubUrl = format("https://api.github.com/users/%s/orgs", user);
+
+		UserOrg[] orgs = new UserOrg[]{};
+
+		try {
+			orgs = GithubAPI.getArray(githubUrl, UserOrg[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return orgs;
+	}
+
+	public static User[] getOrgMembers(String orgName) {
+		String githubUrl = format("https://api.github.com/orgs/%s/members", orgName);
+
+		User[] users = new User[]{};
+
+		try {
+			users = GithubAPI.getArray(githubUrl, User[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return users;
 	}
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
