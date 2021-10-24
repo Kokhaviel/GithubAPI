@@ -17,6 +17,7 @@
 import fr.kokhaviel.api.github.GithubAPI;
 import fr.kokhaviel.api.github.licenses.License;
 import fr.kokhaviel.api.github.licenses.Licenses;
+import fr.kokhaviel.api.github.licenses.RepoLicense;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +33,9 @@ public class LicensesTests {
 
 
 		final License license = GithubAPI.getLicense("apache-2.0");
-		System.out.println(license.getName() + " : " + license.getBody());
+		System.out.println(license.getName() + " : " + license.getBody() + "\n");
 
+		RepoLicense repoLicense = GithubAPI.getRepoLicense("Kokhaviel", "HypixelAPI");
+		System.out.println(repoLicense.getName() + " : " + repoLicense.getUrl());
 	}
 }

@@ -35,6 +35,7 @@ import fr.kokhaviel.api.github.issues.Issue;
 import fr.kokhaviel.api.github.issues.Label;
 import fr.kokhaviel.api.github.licenses.License;
 import fr.kokhaviel.api.github.licenses.Licenses;
+import fr.kokhaviel.api.github.licenses.RepoLicense;
 import fr.kokhaviel.api.github.milestones.Milestone;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
@@ -425,6 +426,20 @@ public class GithubAPI {
 
 		try {
 			license = GithubAPI.get(githubUrl, License.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return license;
+	}
+
+	public static RepoLicense getRepoLicense(String owner, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/license", owner, repo);
+
+		RepoLicense license = new RepoLicense();
+
+		try {
+			license = GithubAPI.get(githubUrl, RepoLicense.class);
 		} catch(MalformedURLException e) {
 			e.printStackTrace();
 		}
