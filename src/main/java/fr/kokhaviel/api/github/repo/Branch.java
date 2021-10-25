@@ -14,34 +14,45 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.watchers.staring;
+package fr.kokhaviel.api.github.repo;
 
-import com.google.gson.JsonArray;
-import fr.kokhaviel.api.github.repo.Repository;
+import com.google.gson.annotations.SerializedName;
+import fr.kokhaviel.api.github.user.User;
 
-import java.util.ArrayList;
-import java.util.List;
+public class Branch {
 
-import static fr.kokhaviel.api.github.GithubAPI.GSON;
+	@SerializedName("label")
+	String label;
 
-public class Stars {
+	@SerializedName("ref")
+	String ref;
 
-	final JsonArray starsArray;
+	@SerializedName("sha")
+	String sha;
 
-	List<Repository> stars = new ArrayList<>();
+	@SerializedName("user")
+	User owner;
 
-	public Stars(JsonArray jsonArray) {
-		this.starsArray = jsonArray;
+	@SerializedName("repo")
+	Repository repo;
 
-		starsArray.forEach(jsonEvent -> stars.add(GSON.fromJson(jsonEvent, Repository.class)));
+	public String getLabel() {
+		return label;
 	}
 
-	public List<Repository> getStars() {
-		return stars;
+	public String getRef() {
+		return ref;
 	}
 
-	public Repository getStar(int eventIndex) {
-		return stars.get(eventIndex);
+	public String getSha() {
+		return sha;
 	}
 
+	public User getOwner() {
+		return owner;
+	}
+
+	public Repository getRepo() {
+		return repo;
+	}
 }

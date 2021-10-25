@@ -14,34 +14,20 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.watchers.staring;
-
-import com.google.gson.JsonArray;
-import fr.kokhaviel.api.github.repo.Repository;
+import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.pulls.PullRequest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static fr.kokhaviel.api.github.GithubAPI.GSON;
+public class PullsRequestsTests {
 
-public class Stars {
+	public static void main(String[] args) {
+		final PullRequest[] repoPulls = GithubAPI.getRepoPulls("torvalds", "linux");
+		final List<PullRequest> pullRequests = new ArrayList<>(Arrays.asList(repoPulls));
+		pullRequests.forEach(pullRequest -> System.out.println(pullRequest.getCreation() + " : " + pullRequest.getTitle()));
 
-	final JsonArray starsArray;
 
-	List<Repository> stars = new ArrayList<>();
-
-	public Stars(JsonArray jsonArray) {
-		this.starsArray = jsonArray;
-
-		starsArray.forEach(jsonEvent -> stars.add(GSON.fromJson(jsonEvent, Repository.class)));
 	}
-
-	public List<Repository> getStars() {
-		return stars;
-	}
-
-	public Repository getStar(int eventIndex) {
-		return stars.get(eventIndex);
-	}
-
 }

@@ -17,7 +17,7 @@
 package fr.kokhaviel.api.github.watchers.watching;
 
 import com.google.gson.JsonArray;
-import fr.kokhaviel.api.github.Repo;
+import fr.kokhaviel.api.github.repo.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,19 +29,19 @@ public class Watching {
 
 	final JsonArray watchingArray;
 
-	List<Repo> watching = new ArrayList<>();
+	List<Repository> watching = new ArrayList<>();
 
 	public Watching(JsonArray jsonArray) {
 		this.watchingArray = jsonArray;
 
-		watchingArray.forEach(jsonEvent -> watching.add(GSON.fromJson(jsonEvent, Repo.class)));
+		watchingArray.forEach(jsonEvent -> watching.add(GSON.fromJson(jsonEvent, Repository.class)));
 	}
 
-	public List<Repo> getWatches() {
+	public List<Repository> getWatches() {
 		return watching;
 	}
 
-	public Repo getWatch(int eventIndex) {
+	public Repository getWatch(int eventIndex) {
 		return watching.get(eventIndex);
 	}
 }

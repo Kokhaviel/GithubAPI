@@ -27,6 +27,7 @@ import fr.kokhaviel.api.github.coc.CodeOfConduct;
 import fr.kokhaviel.api.github.commits.Commit;
 import fr.kokhaviel.api.github.emojis.Emojis;
 import fr.kokhaviel.api.github.events.Events;
+import fr.kokhaviel.api.github.files.File;
 import fr.kokhaviel.api.github.gists.Gist;
 import fr.kokhaviel.api.github.gists.Gists;
 import fr.kokhaviel.api.github.gitignore.Gitignore;
@@ -41,6 +42,9 @@ import fr.kokhaviel.api.github.meta.ServerMeta;
 import fr.kokhaviel.api.github.milestones.Milestone;
 import fr.kokhaviel.api.github.orgs.Organization;
 import fr.kokhaviel.api.github.orgs.UserOrg;
+import fr.kokhaviel.api.github.pulls.PullRequest;
+import fr.kokhaviel.api.github.rate.RateLimit;
+import fr.kokhaviel.api.github.user.User;
 import fr.kokhaviel.api.github.util.IOUtils;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 import fr.kokhaviel.api.github.watchers.stargazers.Stargazers;
@@ -55,6 +59,8 @@ import static java.lang.String.format;
 
 public class GithubAPI {
 //TODO : ALL toString() OVERRIDE
+//TODO : UP per_page URL PARAM WHEN NEEDED
+
 	public static final Gson GSON = new Gson();
 
 	public static Events getAccountEvents(String accountName) {
@@ -520,6 +526,78 @@ public class GithubAPI {
 
 		return users;
 	}
+
+	public static PullRequest[] getRepoPulls(String owner, String repo) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls", owner, repo);
+
+		PullRequest[] requests = new PullRequest[]{};
+
+		try {
+			requests = GithubAPI.getArray(githubUrl, PullRequest[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return requests;
+	}
+
+	public static PullRequest getPullRequest(String owner, String repo, String pullId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s", owner, repo, pullId);
+
+		PullRequest request = new PullRequest();
+
+		try {
+			request = GithubAPI.get(githubUrl, PullRequest.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return request;
+	}
+
+	public static Commit[] getPullCommits(String owner, String repo, String pullId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/commits", owner, repo, pullId);
+
+		Commit[] commits = new Commit[]{};
+
+		try {
+			commits = GithubAPI.getArray(githubUrl, Commit[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return commits;
+	}
+
+	public static File[] getPullFiles(String owner, String repo, String pullId) {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/files", owner, repo, pullId);
+
+		File[] files = new File[]{};
+
+		try {
+			files = GithubAPI.getArray(githubUrl, File[].class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return files;
+	}
+
+	public static RateLimit getAPIRateLimit() {
+		String githubUrl = "https://api.github.com/rate_limit";
+
+		RateLimit limit = new RateLimit();
+
+		try {
+			limit = GithubAPI.get(githubUrl, RateLimit.class);
+		} catch(MalformedURLException e) {
+			e.printStackTrace();
+		}
+
+		return limit;
+	}
+
+
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
 		JsonObject githubObject = IOUtils.readJson(new URL(url)).getAsJsonObject();

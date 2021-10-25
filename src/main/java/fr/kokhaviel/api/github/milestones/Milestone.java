@@ -17,7 +17,7 @@
 package fr.kokhaviel.api.github.milestones;
 
 import com.google.gson.annotations.SerializedName;
-import fr.kokhaviel.api.github.User;
+import fr.kokhaviel.api.github.user.User;
 
 public class Milestone {
 

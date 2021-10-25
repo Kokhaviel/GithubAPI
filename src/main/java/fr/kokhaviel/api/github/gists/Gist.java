@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.gists;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-import fr.kokhaviel.api.github.User;
+import fr.kokhaviel.api.github.user.User;
 
 import java.util.ArrayList;
 import java.util.List;

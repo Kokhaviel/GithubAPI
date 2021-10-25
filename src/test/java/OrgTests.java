@@ -15,9 +15,9 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.User;
 import fr.kokhaviel.api.github.orgs.Organization;
 import fr.kokhaviel.api.github.orgs.UserOrg;
+import fr.kokhaviel.api.github.user.User;
 
 import java.util.Arrays;
 import java.util.List;
