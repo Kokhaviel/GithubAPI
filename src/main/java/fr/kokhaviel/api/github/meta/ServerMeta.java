@@ -20,7 +20,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ServerMeta {
+public final class ServerMeta {
 
 	@SerializedName("verifiable_password_authentication")
 	boolean verifiablePasswordAuthentication;
@@ -99,7 +99,7 @@ public class ServerMeta {
 		return dependabot;
 	}
 
-	public static class FingerPrints {
+	public static final class FingerPrints {
 
 		@SerializedName("SHA256_RSA")
 		String sha256RSA;

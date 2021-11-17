@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.actions.artifacts;
+package fr.kokhaviel.api.github.repo;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Artifacts {
+public final class Topics {
 
-	@SerializedName("total_count")
-	int totalArtifacts = 0;
+	@SerializedName("names")
+	List<String> topics = new ArrayList<>();
 
-	@SerializedName("artifacts")
-	List<Artifact> artifacts = new ArrayList<>();
-
-
-
-	public int getTotalArtifacts() {
-		return totalArtifacts;
-	}
-
-	public List<Artifact> getArtifacts() {
-		return artifacts;
+	public List<String> getTopics() {
+		return topics;
 	}
 }

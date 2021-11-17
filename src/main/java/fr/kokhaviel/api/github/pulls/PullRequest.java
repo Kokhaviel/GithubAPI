@@ -19,12 +19,12 @@ package fr.kokhaviel.api.github.pulls;
 import com.google.gson.annotations.SerializedName;
 import fr.kokhaviel.api.github.issues.Label;
 import fr.kokhaviel.api.github.milestones.Milestone;
-import fr.kokhaviel.api.github.repo.Branch;
+import fr.kokhaviel.api.github.repo.Repository;
 import fr.kokhaviel.api.github.user.User;
 
 import java.util.List;
 
-public class PullRequest {
+public final class PullRequest {
 
 	@SerializedName("url")
 	String apiUrl;
@@ -291,5 +291,44 @@ public class PullRequest {
 
 	public int getChangedFiles() {
 		return changedFiles;
+	}
+
+
+	public static final class Branch {
+
+		@SerializedName("label")
+		String label;
+
+		@SerializedName("ref")
+		String ref;
+
+		@SerializedName("sha")
+		String sha;
+
+		@SerializedName("user")
+		User owner;
+
+		@SerializedName("repo")
+		Repository repo;
+
+		public String getLabel() {
+			return label;
+		}
+
+		public String getRef() {
+			return ref;
+		}
+
+		public String getSha() {
+			return sha;
+		}
+
+		public User getOwner() {
+			return owner;
+		}
+
+		public Repository getRepo() {
+			return repo;
+		}
 	}
 }

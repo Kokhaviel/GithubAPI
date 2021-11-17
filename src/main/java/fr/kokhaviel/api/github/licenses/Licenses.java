@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.licenses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Licenses {
+public final class Licenses {
 
 	@SerializedName("key")
 	String key;

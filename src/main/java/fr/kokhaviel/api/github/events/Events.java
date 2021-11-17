@@ -23,7 +23,7 @@ import java.util.List;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Events {
+public final class Events {
 
 	final JsonArray eventsArray;
 

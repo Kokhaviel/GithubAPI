@@ -14,28 +14,37 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.actions.artifacts;
+package fr.kokhaviel.api.github.repo;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class BranchList {
 
-public final class Artifacts {
+	@SerializedName("name")
+	String name;
 
-	@SerializedName("total_count")
-	int totalArtifacts = 0;
+	@SerializedName("commit")
+	Tag.Commit commit;
 
-	@SerializedName("artifacts")
-	List<Artifact> artifacts = new ArrayList<>();
+	@SerializedName("protected")
+	boolean _protected;
 
+	@SerializedName("protection_url")
+	String protectionUrl;
 
-
-	public int getTotalArtifacts() {
-		return totalArtifacts;
+	public String getName() {
+		return name;
 	}
 
-	public List<Artifact> getArtifacts() {
-		return artifacts;
+	public Tag.Commit getCommit() {
+		return commit;
+	}
+
+	public boolean isProtected() {
+		return _protected;
+	}
+
+	public String getProtectionUrl() {
+		return protectionUrl;
 	}
 }

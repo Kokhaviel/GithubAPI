@@ -14,23 +14,61 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.gitignore;
+package fr.kokhaviel.api.github.repo;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class Gitignore {
+public final class Tag {
 
 	@SerializedName("name")
 	String name;
 
-	@SerializedName("source")
-	String template;
+	@SerializedName("zipball_url")
+	String zipBall;
+
+	@SerializedName("tarball_url")
+	String tarBall;
+
+	@SerializedName("commit")
+	Commit commit;
+
+	@SerializedName("node_id")
+	String nodeId;
 
 	public String getName() {
 		return name;
 	}
 
-	public String getTemplate() {
-		return template;
+	public String getZipBall() {
+		return zipBall;
+	}
+
+	public String getTarBall() {
+		return tarBall;
+	}
+
+	public Commit getCommit() {
+		return commit;
+	}
+
+	public String getNodeId() {
+		return nodeId;
+	}
+
+	public static final class Commit {
+
+		@SerializedName("sha")
+		String sha;
+
+		@SerializedName("url")
+		String url;
+
+		public String getSha() {
+			return sha;
+		}
+
+		public String getUrl() {
+			return url;
+		}
 	}
 }

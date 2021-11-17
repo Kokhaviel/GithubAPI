@@ -26,7 +26,7 @@ public class IssuesTests {
 
 	public static void main(String[] args) {
 
-		final Issue[] issues = GithubAPI.getIssues("torvalds", "linux");
+		final Issue[] issues = GithubAPI.getRepoIssues("torvalds", "linux");
 		final List<Issue> issueList = new ArrayList<>(Arrays.asList(issues));
 		issueList.forEach(issue -> System.out.println(issue.getNumber() + " : " + issue.getTitle() + "\n"));
 
@@ -35,7 +35,7 @@ public class IssuesTests {
 		System.out.println(issue.getState() + " : " + issue.getTitle() + "\n");
 
 
-		final Comment[] comments = GithubAPI.getComments("torvalds", "linux");
+		final Comment[] comments = GithubAPI.getRepoComments("torvalds", "linux");
 		List<Comment> commentsList = new ArrayList<>(Arrays.asList(comments));
 		commentsList.forEach(comment -> System.out.println(comment.getIssueUrl() + " : " + comment.getBody()));
 

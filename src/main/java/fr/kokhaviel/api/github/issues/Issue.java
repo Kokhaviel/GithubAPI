@@ -21,7 +21,7 @@ import fr.kokhaviel.api.github.user.User;
 
 import java.util.List;
 
-public class Issue {
+public final class Issue {
 
 	@SerializedName("url")
 	String apiUrl;
@@ -171,7 +171,7 @@ public class Issue {
 		return reactions;
 	}
 
-	public static class Reactions {
+	public static final class Reactions {
 
 		@SerializedName("url")
 		String url;

@@ -19,7 +19,7 @@ package fr.kokhaviel.api.github.apps;
 import com.google.gson.annotations.SerializedName;
 import fr.kokhaviel.api.github.user.User;
 
-public class App {
+public final class App {
 
 	@SerializedName("id")
 	int id = 0;

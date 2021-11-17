@@ -24,7 +24,7 @@ import java.util.List;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Watching {
+public final class Watching {
 
 
 	final JsonArray watchingArray;

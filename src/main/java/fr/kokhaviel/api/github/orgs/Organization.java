@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.orgs;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Organization {
+public final class Organization {
 
 
 	@SerializedName("login")

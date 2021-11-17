@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.rate;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RateLimit {
+public final class RateLimit {
 
 	@SerializedName("resources")
 	Resources resources;
@@ -27,7 +27,7 @@ public class RateLimit {
 		return resources;
 	}
 
-	public static class Resources {
+	public static final class Resources {
 
 		@SerializedName("core")
 		ResourceAPI core;
@@ -65,7 +65,7 @@ public class RateLimit {
 		}
 	}
 
-	public static class ResourceAPI {
+	public static final class ResourceAPI {
 
 		@SerializedName("limit")
 		int limit;

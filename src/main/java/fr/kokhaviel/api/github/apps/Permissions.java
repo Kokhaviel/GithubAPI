@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.apps;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Permissions {
+public final class Permissions {
 
 
 	@SerializedName("metadata")

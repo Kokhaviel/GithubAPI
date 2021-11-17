@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package fr.kokhaviel.api.github.user;
+package fr.kokhaviel.api.github.repo;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class User {
+public final class Contributor {
 
 
 	@SerializedName("login")
@@ -69,44 +69,8 @@ public final class User {
 	@SerializedName("site_admin")
 	boolean admin;
 
-	@SerializedName("name")
-	String name;
-
-	@SerializedName("company")
-	String company;
-
-	@SerializedName("blog")
-	String blog;
-
-	@SerializedName("location")
-	String location;
-
-	@SerializedName("email")
-	String email;
-
-	@SerializedName("bio")
-	String bio;
-
-	@SerializedName("twitter_username")
-	String twitter;
-
-	@SerializedName("public_repos")
-	int reposCount;
-
-	@SerializedName("public_gists")
-	int gistsCount;
-
-	@SerializedName("followers")
-	int followingCount;
-
-	@SerializedName("following")
-	int followersCount;
-	
-	@SerializedName("created_at")
-	String creation;
-
-	@SerializedName("updated_at")
-	String update;
+	@SerializedName("contributions")
+	int contributions;
 
 
 	public String getLogin() {
@@ -173,55 +137,7 @@ public final class User {
 		return admin;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public String getCompany() {
-		return company;
-	}
-
-	public String getBlog() {
-		return blog;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getBio() {
-		return bio;
-	}
-
-	public String getTwitter() {
-		return twitter;
-	}
-
-	public int getReposCount() {
-		return reposCount;
-	}
-
-	public int getGistsCount() {
-		return gistsCount;
-	}
-
-	public int getFollowingCount() {
-		return followingCount;
-	}
-
-	public int getFollowersCount() {
-		return followersCount;
-	}
-
-	public String getCreation() {
-		return creation;
-	}
-
-	public String getUpdate() {
-		return update;
+	public int getContributions() {
+		return contributions;
 	}
 }

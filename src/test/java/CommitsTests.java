@@ -15,16 +15,14 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.commits.Commit;
+import fr.kokhaviel.api.github.repo.Commit;
 
 public class CommitsTests {
 
 	public static void main(String[] args) {
 
-		final Commit commit = GithubAPI.getCommit("Kokhaviel", "HypixelAPI", "0605a2752fe706c3cc9bd369135b6a234e00fcf4");
-		System.out.println(commit.getAuthor().getName() + " : " + commit.getMessage());
+		final Commit commit = GithubAPI.getCommit("torvalds", "linux", "05d5da3cb11c91c39e607066d3313a6ce621796a");
+		System.out.println(commit.getCommitter().getLogin() + " : " + commit.getCommit().getMessage());
 		System.out.println(commit.getSha());
-
-
 	}
 }

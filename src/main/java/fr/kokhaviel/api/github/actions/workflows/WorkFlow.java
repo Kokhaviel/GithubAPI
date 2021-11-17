@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.actions.workflows;
 
 import com.google.gson.annotations.SerializedName;
 
-public class WorkFlow {
+public final class WorkFlow {
 
 	@SerializedName("id")
 	int id = 0;

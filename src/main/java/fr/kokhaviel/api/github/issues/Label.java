@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.issues;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Label {
+public final class Label {
 
 
 	@SerializedName("id")

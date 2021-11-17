@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Gists {
+public final class Gists {
 
 	final JsonArray gistsArray;
 
@@ -49,7 +49,7 @@ public class Gists {
 		return gists.get(eventIndex);
 	}
 
-	public static class Gist {
+	public static final class Gist {
 
 		final String apiUrl;
 		final String id;

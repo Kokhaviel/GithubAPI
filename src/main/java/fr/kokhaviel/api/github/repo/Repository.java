@@ -21,7 +21,7 @@ import fr.kokhaviel.api.github.user.User;
 
 import java.util.List;
 
-public class Repository {
+public final class Repository {
 
 	@SerializedName("id")
 	long id;

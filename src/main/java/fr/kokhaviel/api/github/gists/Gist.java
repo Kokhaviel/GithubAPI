@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 import static fr.kokhaviel.api.github.GithubAPI.GSON;
 
-public class Gist {
+public final class Gist {
 
 	List<File> files = new ArrayList<>();
 	GistData gist;
@@ -60,7 +60,7 @@ public class Gist {
 		return gist;
 	}
 
-	public static class GistData {
+	public static final class GistData {
 
 		@SerializedName("url")
 		String apiUrl;
@@ -191,7 +191,7 @@ public class Gist {
 		}
 	}
 
-	public static class File {
+	public static final class File {
 
 		@SerializedName("filename")
 		String name;
@@ -237,7 +237,7 @@ public class Gist {
 		}
 	}
 
-	public static class Commit {
+	public static final class Commit {
 
 		@SerializedName("user")
 		User user;
@@ -249,7 +249,7 @@ public class Gist {
 		String committed;
 
 		@SerializedName("change_status")
-		Changes changes;
+		fr.kokhaviel.api.github.commits.Commit.Changes changes;
 
 		@SerializedName("url")
 		String url;
@@ -266,36 +266,12 @@ public class Gist {
 			return committed;
 		}
 
-		public Changes getChanges() {
+		public fr.kokhaviel.api.github.commits.Commit.Changes getChanges() {
 			return changes;
 		}
 
 		public String getUrl() {
 			return url;
-		}
-
-		public static class Changes {
-
-			@SerializedName("total")
-			int total;
-
-			@SerializedName("additions")
-			int additions;
-
-			@SerializedName("deletions")
-			int deletions;
-
-			public int getTotal() {
-				return total;
-			}
-
-			public int getAdditions() {
-				return additions;
-			}
-
-			public int getDeletions() {
-				return deletions;
-			}
 		}
 	}
 }

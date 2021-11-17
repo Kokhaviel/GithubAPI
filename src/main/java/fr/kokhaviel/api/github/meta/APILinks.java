@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.meta;
 
 import com.google.gson.annotations.SerializedName;
 
-public class APILinks {
+public final class APILinks {
 
 
 	@SerializedName("current_user_url")

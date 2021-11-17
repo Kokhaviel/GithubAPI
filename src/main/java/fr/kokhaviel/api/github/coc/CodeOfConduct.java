@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.coc;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CodeOfConduct {
+public final class CodeOfConduct {
 
 	@SerializedName("key")
 	String key = "";

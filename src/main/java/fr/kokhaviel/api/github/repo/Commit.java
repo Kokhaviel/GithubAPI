@@ -17,13 +17,13 @@
 package fr.kokhaviel.api.github.repo;
 
 import com.google.gson.annotations.SerializedName;
-import fr.kokhaviel.api.github.commits.Commit;
+import fr.kokhaviel.api.github.commits.Commit.Parent;
 import fr.kokhaviel.api.github.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Branch {
+public final class Commit {
 
 	@SerializedName("sha")
 	String sha;
@@ -32,7 +32,7 @@ public final class Branch {
 	String nodeId;
 
 	@SerializedName("commit")
-	Commit commit;
+	fr.kokhaviel.api.github.commits.Commit commit = new fr.kokhaviel.api.github.commits.Commit();
 
 	@SerializedName("url")
 	String apiUrl;
@@ -50,8 +50,7 @@ public final class Branch {
 	User committer;
 
 	@SerializedName("parents")
-	List<Commit.Parent> parents = new ArrayList<>();
-
+	List<Parent> parents = new ArrayList<>();
 
 
 	public String getSha() {
@@ -62,7 +61,7 @@ public final class Branch {
 		return nodeId;
 	}
 
-	public Commit getCommit() {
+	public fr.kokhaviel.api.github.commits.Commit getCommit() {
 		return commit;
 	}
 
@@ -86,7 +85,7 @@ public final class Branch {
 		return committer;
 	}
 
-	public List<Commit.Parent> getParents() {
+	public List<Parent> getParents() {
 		return parents;
 	}
 }

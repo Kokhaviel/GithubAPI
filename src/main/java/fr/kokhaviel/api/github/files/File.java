@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.files;
 
 import com.google.gson.annotations.SerializedName;
 
-public class File {
+public final class File {
 
 	@SerializedName("sha")
 	String sha;

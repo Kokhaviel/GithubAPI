@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.actions.artifacts;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Artifact {
+public final class Artifact {
 
 	@SerializedName("id")
 	int id = 0;

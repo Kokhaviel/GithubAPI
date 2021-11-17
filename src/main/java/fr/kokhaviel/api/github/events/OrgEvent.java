@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.events;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OrgEvent {
+public final class OrgEvent {
 
 	@SerializedName("id")
 	String id;

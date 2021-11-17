@@ -17,10 +17,12 @@
 package fr.kokhaviel.api.github.commits;
 
 import com.google.gson.annotations.SerializedName;
+import fr.kokhaviel.api.github.files.File;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Commit {
+public final class Commit {
 
 	@SerializedName("sha")
 	String sha;
@@ -52,6 +54,13 @@ public class Commit {
 	@SerializedName("verification")
 	Verification verif;
 
+	//Only for GithubAPI#getCommit(String, String, String)
+	@SerializedName("changes")
+	Commit.Changes changes = new Changes();
+
+	@SerializedName("files")
+	List<File> files = new ArrayList<>();
+
 	public String getSha() {
 		return sha;
 	}
@@ -59,6 +68,8 @@ public class Commit {
 	public String getNodeId() {
 		return nodeId;
 	}
+
+
 
 	public String getApiUrl() {
 		return apiUrl;
@@ -92,7 +103,15 @@ public class Commit {
 		return verif;
 	}
 
-	public static class Author {
+	public Changes getChanges() {
+		return changes;
+	}
+
+	public List<File> getFiles() {
+		return files;
+	}
+
+	public static final class Author {
 
 		@SerializedName("name")
 		String name;
@@ -116,7 +135,7 @@ public class Commit {
 		}
 	}
 
-	public static class Tree {
+	public static final class Tree {
 
 		@SerializedName("sha")
 		String sha;
@@ -133,7 +152,7 @@ public class Commit {
 		}
 	}
 
-	public static class Parent {
+	public static final class Parent {
 
 		@SerializedName("sha")
 		String sha;
@@ -157,7 +176,7 @@ public class Commit {
 		}
 	}
 
-	public static class Verification {
+	public static final class Verification {
 
 		@SerializedName("verified")
 		boolean verified;
@@ -171,6 +190,30 @@ public class Commit {
 
 		public String getReason() {
 			return reason;
+		}
+	}
+
+	public static final class Changes {
+
+		@SerializedName("total")
+		int total;
+
+		@SerializedName("additions")
+		int additions;
+
+		@SerializedName("deletions")
+		int deletions;
+
+		public int getTotal() {
+			return total;
+		}
+
+		public int getAdditions() {
+			return additions;
+		}
+
+		public int getDeletions() {
+			return deletions;
 		}
 	}
 }

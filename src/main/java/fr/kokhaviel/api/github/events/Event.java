@@ -18,7 +18,7 @@ package fr.kokhaviel.api.github.events;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Event {
+public final class Event {
 
 	@SerializedName("id")
 	String id;
@@ -64,7 +64,7 @@ public class Event {
 	}
 
 
-	public static class Author {
+	public static final class Author {
 
 		@SerializedName("id")
 		String id = "";
@@ -96,7 +96,7 @@ public class Event {
 		}
 	}
 
-	public static class Repo {
+	public static final class Repo {
 
 		@SerializedName("id")
 		String id = "";
