@@ -65,13 +65,12 @@ import static java.lang.String.format;
 public final class GithubAPI {
 
 	//TODO : ALL toString() OVERRIDE
-	//TODO : UP per_page URL PARAM WHEN NEEDED
 	//TODO : Make Documentation
 
 	public static final Gson GSON = new Gson();
 
 	public static Events getAccountEvents(String accountName) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/events", accountName);
+		String githubUrl = format("https://api.github.com/users/%s/events?per_page=100", accountName);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -79,7 +78,7 @@ public final class GithubAPI {
 	}
 
 	public static Events getRepoEvents(String account, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/events", account, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/events?per_page=100", account, repo);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -87,7 +86,7 @@ public final class GithubAPI {
 	}
 
 	public static Events getOrganisationEvents(String org) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/orgs/%s/events", org);
+		String githubUrl = format("https://api.github.com/orgs/%s/events?per_page=100", org);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -95,7 +94,7 @@ public final class GithubAPI {
 	}
 
 	public static Stargazers getRepoStargazers(String account, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/stargazers", account, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/stargazers?per_page=100", account, repo);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -103,7 +102,7 @@ public final class GithubAPI {
 	}
 
 	public static Stars getRepoStarred(String account) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/starred", account);
+		String githubUrl = format("https://api.github.com/users/%s/starred?per_page=100", account);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -111,7 +110,7 @@ public final class GithubAPI {
 	}
 
 	public static Watchers getRepoWatchers(String account, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/subscribers", account, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/subscribers?per_page=100", account, repo);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -119,7 +118,7 @@ public final class GithubAPI {
 	}
 
 	public static Watching getWatchingRepo(String account) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/subscriptions", account);
+		String githubUrl = format("https://api.github.com/users/%s/subscriptions?per_page=100", account);
 
 		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -127,7 +126,7 @@ public final class GithubAPI {
 	}
 
 	public static Artifacts getRepoArtifacts(String account, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts", account, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts?per_page=100", account, repo);
 
 		return GithubAPI.get(githubUrl, Artifacts.class);
 	}
@@ -139,7 +138,7 @@ public final class GithubAPI {
 	}
 
 	public static WorkFlows getRepoWorkFlows(String account, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/workflows", account, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/workflows?per_page=100", account, repo);
 
 		return GithubAPI.get(githubUrl, WorkFlows.class);
 	}
@@ -167,7 +166,7 @@ public final class GithubAPI {
 	}
 
 	public static Gists getGists() throws MalformedURLException {
-		String githubUrl = "https://api.github.com/gists";
+		String githubUrl = "https://api.github.com/gists?per_page=100";
 
 		JsonArray gists = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
@@ -189,7 +188,7 @@ public final class GithubAPI {
 	}
 
 	public static Issue[] getRepoIssues(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/issues", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Issue[].class);
 	}
@@ -201,7 +200,7 @@ public final class GithubAPI {
 	}
 
 	public static Comment[] getRepoComments(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/comments", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/comments?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Comment[].class);
 	}
@@ -213,13 +212,13 @@ public final class GithubAPI {
 	}
 
 	public static Label[] getIssueLabels(String owner, String repo, String issueId) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/%s/labels", owner, repo, issueId);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/%s/labels?per_page=100", owner, repo, issueId);
 
 		return GithubAPI.getArray(githubUrl, Label[].class);
 	}
 
 	public static Label[] getRepoLabels(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/labels", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/labels?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Label[].class);
 	}
@@ -231,7 +230,7 @@ public final class GithubAPI {
 	}
 
 	public static Milestone[] getRepoMilestones(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/milestones", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/milestones?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Milestone[].class);
 	}
@@ -279,19 +278,19 @@ public final class GithubAPI {
 	}
 
 	public static UserOrg[] getUserOrgs(String user) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/orgs", user);
+		String githubUrl = format("https://api.github.com/users/%s/orgs?per_page=100", user);
 
 		return GithubAPI.getArray(githubUrl, UserOrg[].class);
 	}
 
 	public static User[] getOrgMembers(String orgName) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/orgs/%s/members", orgName);
+		String githubUrl = format("https://api.github.com/orgs/%s/members?per_page=100", orgName);
 
 		return GithubAPI.getArray(githubUrl, User[].class);
 	}
 
 	public static PullRequest[] getRepoPulls(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, PullRequest[].class);
 	}
@@ -303,13 +302,13 @@ public final class GithubAPI {
 	}
 
 	public static Commit[] getPullCommits(String owner, String repo, String pullId) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/commits", owner, repo, pullId);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/commits?per_page=100", owner, repo, pullId);
 
 		return GithubAPI.getArray(githubUrl, Commit[].class);
 	}
 
 	public static File[] getPullFiles(String owner, String repo, String pullId) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/files", owner, repo, pullId);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/files?per_page=100", owner, repo, pullId);
 
 		return GithubAPI.getArray(githubUrl, File[].class);
 	}
@@ -322,7 +321,7 @@ public final class GithubAPI {
 
 
 	public static Repository[] getOrgRepos(String org) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/orgs/%s/repos", org);
+		String githubUrl = format("https://api.github.com/orgs/%s/repos?per_page=100", org);
 
 		return GithubAPI.getArray(githubUrl, Repository[].class);
 	}
@@ -334,7 +333,7 @@ public final class GithubAPI {
 	}
 
 	public static Contributor[] getRepoContributors(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/contributors", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/contributors?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Contributor[].class);
 	}
@@ -346,7 +345,7 @@ public final class GithubAPI {
 	}
 
 	public static Tag[] getRepoTags(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/tags", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/tags?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Tag[].class);
 	}
@@ -358,19 +357,19 @@ public final class GithubAPI {
 	}
 
 	public static Repository[] getUserRepos(String user) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/repos", user);
+		String githubUrl = format("https://api.github.com/users/%s/repos?per_page=100", user);
 
 		return GithubAPI.getArray(githubUrl, Repository[].class);
 	}
 
 	public static BranchList[] getRepoBranches(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/branches", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/branches?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, BranchList[].class);
 	}
 
 	public static fr.kokhaviel.api.github.repo.Commit[] getRepoCommits(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/commits", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/commits?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, fr.kokhaviel.api.github.repo.Commit[].class);
 	}
@@ -388,13 +387,13 @@ public final class GithubAPI {
 	}
 
 	public static Repository[] getForks(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/forks", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/forks?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Repository[].class);
 	}
 
 	public static Release[] getReleases(String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/releases", owner, repo);
+		String githubUrl = format("https://api.github.com/repos/%s/%s/releases?per_page=100", owner, repo);
 
 		return GithubAPI.getArray(githubUrl, Release[].class);
 	}
@@ -412,7 +411,7 @@ public final class GithubAPI {
 	}
 
 	public static CodeSearch searchCode(String search, String lang, String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/search/code?q=%s+in:file+language:%s+repo:%s/%s",
+		String githubUrl = format("https://api.github.com/search/code?q=%s+in:file+language:%s+repo:%s/%s&per_page=100",
 				search.replace(" ", "%20"),
 				lang.replace(" ", "%20"), owner, repo);
 
@@ -420,7 +419,7 @@ public final class GithubAPI {
 	}
 
 	public static CommitSearch searchCommit(String search, String owner, String repo) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/search/commits?q=repo:%s/%s+%s",
+		String githubUrl = format("https://api.github.com/search/commits?q=repo:%s/%s+%s&per_page=100",
 				owner, repo, search.replace(" ", "%20"));
 
 		return GithubAPI.get(githubUrl, CommitSearch.class);
@@ -441,25 +440,26 @@ public final class GithubAPI {
 				break;
 		}
 		githubUrl.append("&sort=created&order=asc");
+		githubUrl.append("&per_page=100");
 
 		return GithubAPI.get(githubUrl.toString(), IssueSearch.class);
 	}
 
 	public static ReposSearch searchRepos(String repo, String lang) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/search/repositories?q=%s+language:%s&sort=stars&order=desc", repo, lang);
+		String githubUrl = format("https://api.github.com/search/repositories?q=%s+language:%s&sort=stars&order=desc&per_page=100", repo, lang);
 
 		return GithubAPI.get(githubUrl, ReposSearch.class);
 	}
 
 	public static UserSearch searchUser(String user, int minimumRepos, int minimumFollowers) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/search/users?q=%s+repos:%s+followers:%s&sort=desc",
+		String githubUrl = format("https://api.github.com/search/users?q=%s+repos:%s+followers:%s&sort=desc&per_page=100",
 				user, "%3E" + minimumRepos, "%3E" + minimumFollowers);
 
 		return GithubAPI.get(githubUrl, UserSearch.class);
 	}
 
 	public static User[] getUsers() throws MalformedURLException {
-		String githubUrl = "https://api.github.com/users?sort=desc";
+		String githubUrl = "https://api.github.com/users?sort=desc&per_page=100";
 
 		return GithubAPI.getArray(githubUrl, User[].class);
 	}
@@ -471,25 +471,25 @@ public final class GithubAPI {
 	}
 
 	public static Follower[] getFollowers(String username) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/followers", username);
+		String githubUrl = format("https://api.github.com/users/%s/followers?per_page=100", username);
 
 		return GithubAPI.getArray(githubUrl, Follower[].class);
 	}
 
 	public static Follower[] getFollowing(String username) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/following", username);
+		String githubUrl = format("https://api.github.com/users/%s/following?per_page=100", username);
 
 		return GithubAPI.getArray(githubUrl, Follower[].class);
 	}
 
 	public static SSHKey[] getUserSSHKeys(String username) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/keys", username);
+		String githubUrl = format("https://api.github.com/users/%s/keys?per_page=100", username);
 
 		return GithubAPI.getArray(githubUrl, SSHKey[].class);
 	}
 
 	public static GPGKey[] getUserGPGKeys(String username) throws MalformedURLException {
-		String githubUrl = format("https://api.github.com/users/%s/gpg_keys", username);
+		String githubUrl = format("https://api.github.com/users/%s/gpg_keys?per_page=100", username);
 
 		return GithubAPI.getArray(githubUrl, GPGKey[].class);
 	}
