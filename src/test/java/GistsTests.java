@@ -16,10 +16,14 @@
 
 import fr.kokhaviel.api.github.GithubAPI;
 import fr.kokhaviel.api.github.gists.Gist;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class GistsTests {
 
 	public static void main(String[] args) {
+		try {
 		GithubAPI.getGists().getGists().forEach(gist -> {
 			StringBuilder sb = new StringBuilder();
 			sb.append(gist.getId()).append("   ").append(gist.getOwner().getLogin()).append("   ");
@@ -36,5 +40,10 @@ public class GistsTests {
 		System.out.println(gist.getGistData().getUrl());
 		System.out.println(gist.getGistData().getOwner().getLogin());
 		gist.getGistData().getCommits().forEach(commit -> System.out.println(commit.getUrl() + " : " + commit.getChanges().getTotal()));
+
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

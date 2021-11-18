@@ -18,14 +18,13 @@ package fr.kokhaviel.api.github.user;
 
 import com.google.gson.annotations.SerializedName;
 
-public final class User {
-
+public class Follower {
 
 	@SerializedName("login")
 	String login;
 
 	@SerializedName("id")
-	int id;
+	String id;
 
 	@SerializedName("node_id")
 	String nodeId;
@@ -52,10 +51,10 @@ public final class User {
 	String starredUrl;
 
 	@SerializedName("subscriptions_url")
-	String subUrl;
+	String subscriptionsUrl;
 
 	@SerializedName("organizations_url")
-	String orgsUrl;
+	String organizationsUrl;
 
 	@SerializedName("repos_url")
 	String reposUrl;
@@ -63,60 +62,22 @@ public final class User {
 	@SerializedName("events_url")
 	String eventsUrl;
 
+	@SerializedName("received_events_url")
+	String receivedEventsUrl;
+
 	@SerializedName("type")
 	String type;
 
 	@SerializedName("site_admin")
-	boolean admin;
+	boolean siteAdmin;
 
-	@SerializedName("name")
-	String name;
-
-	@SerializedName("company")
-	String company;
-
-	@SerializedName("blog")
-	String blog;
-
-	@SerializedName("location")
-	String location;
-
-	@SerializedName("email")
-	String email;
-
-	@SerializedName("hireable")
-	boolean hireable;
-
-	@SerializedName("bio")
-	String bio;
-
-	@SerializedName("twitter_username")
-	String twitter;
-
-	@SerializedName("public_repos")
-	int reposCount;
-
-	@SerializedName("public_gists")
-	int gistsCount;
-
-	@SerializedName("followers")
-	int followingCount;
-
-	@SerializedName("following")
-	int followersCount;
-	
-	@SerializedName("created_at")
-	String creation;
-
-	@SerializedName("updated_at")
-	String update;
 
 
 	public String getLogin() {
 		return login;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -152,12 +113,12 @@ public final class User {
 		return starredUrl;
 	}
 
-	public String getSubUrl() {
-		return subUrl;
+	public String getSubscriptionsUrl() {
+		return subscriptionsUrl;
 	}
 
-	public String getOrgsUrl() {
-		return orgsUrl;
+	public String getOrganizationsUrl() {
+		return organizationsUrl;
 	}
 
 	public String getReposUrl() {
@@ -168,67 +129,15 @@ public final class User {
 		return eventsUrl;
 	}
 
+	public String getReceivedEventsUrl() {
+		return receivedEventsUrl;
+	}
+
 	public String getType() {
 		return type;
 	}
 
-	public boolean isAdmin() {
-		return admin;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getCompany() {
-		return company;
-	}
-
-	public String getBlog() {
-		return blog;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public boolean isHireable() {
-		return hireable;
-	}
-
-	public String getBio() {
-		return bio;
-	}
-
-	public String getTwitter() {
-		return twitter;
-	}
-
-	public int getReposCount() {
-		return reposCount;
-	}
-
-	public int getGistsCount() {
-		return gistsCount;
-	}
-
-	public int getFollowingCount() {
-		return followingCount;
-	}
-
-	public int getFollowersCount() {
-		return followersCount;
-	}
-
-	public String getCreation() {
-		return creation;
-	}
-
-	public String getUpdate() {
-		return update;
+	public boolean isSiteAdmin() {
+		return siteAdmin;
 	}
 }

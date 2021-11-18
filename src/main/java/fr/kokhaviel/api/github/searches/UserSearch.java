@@ -14,22 +14,33 @@
  * limitations under the License.
  */
 
-import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.apps.App;
-import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+package fr.kokhaviel.api.github.searches;
 
-import java.net.MalformedURLException;
+import com.google.gson.annotations.SerializedName;
+import fr.kokhaviel.api.github.user.User;
 
-public class AppTests {
+import java.util.List;
 
-	public static void main(String[] args) {
-		try {
+public final class UserSearch {
 
-			final App app = GithubAPI.getApp("octocat");
-			System.out.println(app.getCreation());
+	@SerializedName("total_count")
+	int totalUser;
 
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
-		}
+	@SerializedName("incomplete_results")
+	boolean incompleteSearch;
+
+	@SerializedName("items")
+	List<User> items;
+
+	public int getTotalUser() {
+		return totalUser;
+	}
+
+	public boolean isIncompleteSearch() {
+		return incompleteSearch;
+	}
+
+	public List<User> getItems() {
+		return items;
 	}
 }

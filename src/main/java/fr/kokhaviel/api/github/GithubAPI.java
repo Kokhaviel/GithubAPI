@@ -33,6 +33,7 @@ import fr.kokhaviel.api.github.gists.Gists;
 import fr.kokhaviel.api.github.gitignore.Gitignore;
 import fr.kokhaviel.api.github.issues.Comment;
 import fr.kokhaviel.api.github.issues.Issue;
+import fr.kokhaviel.api.github.issues.IssueStatus;
 import fr.kokhaviel.api.github.issues.Label;
 import fr.kokhaviel.api.github.licenses.License;
 import fr.kokhaviel.api.github.licenses.Licenses;
@@ -45,9 +46,12 @@ import fr.kokhaviel.api.github.orgs.UserOrg;
 import fr.kokhaviel.api.github.pulls.PullRequest;
 import fr.kokhaviel.api.github.rate.RateLimit;
 import fr.kokhaviel.api.github.repo.*;
+import fr.kokhaviel.api.github.searches.*;
+import fr.kokhaviel.api.github.user.Follower;
+import fr.kokhaviel.api.github.user.GPGKey;
+import fr.kokhaviel.api.github.user.SSHKey;
 import fr.kokhaviel.api.github.user.User;
 import fr.kokhaviel.api.github.util.IOUtils;
-import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 import fr.kokhaviel.api.github.watchers.stargazers.Stargazers;
 import fr.kokhaviel.api.github.watchers.staring.Stars;
 import fr.kokhaviel.api.github.watchers.watching.Watchers;
@@ -59,159 +63,94 @@ import java.net.URL;
 import static java.lang.String.format;
 
 public final class GithubAPI {
-//TODO : ALL toString() OVERRIDE
-//TODO : UP per_page URL PARAM WHEN NEEDED
+
+	//TODO : ALL toString() OVERRIDE
+	//TODO : UP per_page URL PARAM WHEN NEEDED
+	//TODO : Make Documentation
 
 	public static final Gson GSON = new Gson();
 
-	public static Events getAccountEvents(String accountName) {
+	public static Events getAccountEvents(String accountName) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/users/%s/events", accountName);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Account Events : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Events(githubEventsObject);
 	}
 
-	public static Events getRepoEvents(String account, String repo) {
+	public static Events getRepoEvents(String account, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/events", account, repo);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Repo Events : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Events(githubEventsObject);
 	}
 
-	public static Events getOrganisationEvents(String org) {
+	public static Events getOrganisationEvents(String org) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/orgs/%s/events", org);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Organisation Events : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Events(githubEventsObject);
 	}
 
-	public static Stargazers getRepoStargazers(String account, String repo) {
+	public static Stargazers getRepoStargazers(String account, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/stargazers", account, repo);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Repo Stargazers : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Stargazers(githubEventsObject);
 	}
 
-	public static Stars getRepoStarred(String account) {
+	public static Stars getRepoStarred(String account) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/users/%s/starred", account);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Repo Stars : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Stars(githubEventsObject);
 	}
 
-	public static Watchers getRepoWatchers(String account, String repo) {
+	public static Watchers getRepoWatchers(String account, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/subscribers", account, repo);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Repo Watchers : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Watchers(githubEventsObject);
 	}
 
-	public static Watching getWatchingRepo(String account) {
+	public static Watching getWatchingRepo(String account) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/users/%s/subscriptions", account);
 
-		JsonArray githubEventsObject;
-		try {
-			githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Repo Watchers : " + e.getMessage());
-		}
+		JsonArray githubEventsObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Watching(githubEventsObject);
 	}
 
-	public static Artifacts getRepoArtifacts(String account, String repo) {
+	public static Artifacts getRepoArtifacts(String account, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts", account, repo);
 
-		Artifacts artifacts = new Artifacts();
-
-		try {
-			artifacts = GithubAPI.get(githubUrl, Artifacts.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return artifacts;
+		return GithubAPI.get(githubUrl, Artifacts.class);
 	}
 
-	public static Artifact getRepoArtifact(String account, String repo, int artifactId) {
+	public static Artifact getRepoArtifact(String account, String repo, int artifactId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/artifacts/%s", account, repo, artifactId);
 
-		Artifact artifact = new Artifact();
-
-		try {
-			artifact = GithubAPI.get(githubUrl, Artifact.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return artifact;
+		return GithubAPI.get(githubUrl, Artifact.class);
 	}
 
-	public static WorkFlows getRepoWorkFlows(String account, String repo) {
+	public static WorkFlows getRepoWorkFlows(String account, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/actions/workflows", account, repo);
 
-		WorkFlows workFlows = new WorkFlows();
-
-		try {
-			workFlows = GithubAPI.get(githubUrl, WorkFlows.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return workFlows;
+		return GithubAPI.get(githubUrl, WorkFlows.class);
 	}
 
-	public static App getApp(String appName) {
+	public static App getApp(String appName) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/apps/%s", appName);
 
-		App app = new App();
-
-		try {
-			app = GithubAPI.get(githubUrl, App.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return app;
+		return GithubAPI.get(githubUrl, App.class);
 	}
 
-	public static CodeOfConduct getCodeOfConduct(String account, String repo) {
+	public static CodeOfConduct getCodeOfConduct(String account, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/community/code_of_conduct", account, repo);
 
 		JsonObject githubObject = IOUtils.getPreviewGithubContent(githubUrl, 100000);
@@ -219,578 +158,340 @@ public final class GithubAPI {
 		return GSON.fromJson(githubObject, CodeOfConduct.class);
 	}
 
-	public static Emojis getEmojisData() {
+	public static Emojis getEmojisData() throws MalformedURLException {
 		String githubUrl = "https://api.github.com/emojis";
 
-		JsonObject emojisObject = new JsonObject();
-
-		try {
-			emojisObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonObject();
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
+		JsonObject emojisObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonObject();
 
 		return new Emojis(emojisObject);
 	}
 
-	public static Gists getGists() {
+	public static Gists getGists() throws MalformedURLException {
 		String githubUrl = "https://api.github.com/gists";
 
-		JsonArray gists = new JsonArray();
-
-		try {
-			gists = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
+		JsonArray gists = IOUtils.readJson(new URL(githubUrl)).getAsJsonArray();
 
 		return new Gists(gists);
 	}
 
-	public static Gist getGist(String id) {
+	public static Gist getGist(String id) throws MalformedURLException {
 		String githubUrl = "https://api.github.com/gists/" + id;
 
-		JsonObject gistObject = new JsonObject();
-
-		try {
-			gistObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonObject();
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
+		JsonObject gistObject = IOUtils.readJson(new URL(githubUrl)).getAsJsonObject();
 
 		return new Gist(gistObject);
 	}
 
-	public static Gitignore getGitignore(String language) {
+	public static Gitignore getGitignore(String language) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/gitignore/templates/%s", language);
 
-		Gitignore gitignore = new Gitignore();
-
-		try {
-			gitignore = GithubAPI.get(githubUrl, Gitignore.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return gitignore;
+		return GithubAPI.get(githubUrl, Gitignore.class);
 	}
 
-	public static Issue[] getRepoIssues(String owner, String repo) {
+	public static Issue[] getRepoIssues(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/issues", owner, repo);
 
-		Issue[] issues = new Issue[] {};
-
-		try {
-			issues = GithubAPI.getArray(githubUrl, Issue[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return issues;
+		return GithubAPI.getArray(githubUrl, Issue[].class);
 	}
 
-	public static Issue getIssue(String owner, String repo, String issueId) {
+	public static Issue getIssue(String owner, String repo, String issueId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/%s", owner, repo, issueId);
 
-		Issue issue = new Issue();
-
-		try {
-			issue = GithubAPI.get(githubUrl, Issue.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return issue;
+		return GithubAPI.get(githubUrl, Issue.class);
 	}
 
-	public static Comment[] getRepoComments(String owner, String repo) {
+	public static Comment[] getRepoComments(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/comments", owner, repo);
 
-		Comment[] comments = new Comment[] {};
-
-		try {
-			comments = GithubAPI.getArray(githubUrl, Comment[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return comments;
+		return GithubAPI.getArray(githubUrl, Comment[].class);
 	}
 
-	public static Comment getComment(String owner, String repo, String commentId) {
+	public static Comment getComment(String owner, String repo, String commentId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/comments/%s", owner, repo, commentId);
 
-		Comment comment = new Comment();
-
-		try {
-			comment = GithubAPI.get(githubUrl, Comment.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return comment;
+		return GithubAPI.get(githubUrl, Comment.class);
 	}
 
-	public static Label[] getIssueLabels(String owner, String repo, String issueId) {
+	public static Label[] getIssueLabels(String owner, String repo, String issueId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/issues/%s/labels", owner, repo, issueId);
 
-		Label[] labels = new Label[] {};
-
-		try {
-			labels = GithubAPI.getArray(githubUrl, Label[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return labels;
+		return GithubAPI.getArray(githubUrl, Label[].class);
 	}
 
-	public static Label[] getRepoLabels(String owner, String repo) {
+	public static Label[] getRepoLabels(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/labels", owner, repo);
 
-		Label[] labels = new Label[] {};
-
-		try {
-			labels = GithubAPI.getArray(githubUrl, Label[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return labels;
+		return GithubAPI.getArray(githubUrl, Label[].class);
 	}
 
-	public static Label getLabel(String owner, String repo, String labelName) {
+	public static Label getLabel(String owner, String repo, String labelName) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/labels/%s", owner, repo, labelName);
 
-		Label label = new Label();
-
-		try {
-			label = GithubAPI.get(githubUrl, Label.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return label;
+		return GithubAPI.get(githubUrl, Label.class);
 	}
 
-	public static Milestone[] getRepoMilestones(String owner, String repo) {
+	public static Milestone[] getRepoMilestones(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/milestones", owner, repo);
 
-		Milestone[] milestones = new Milestone[] {};
-
-		try {
-			milestones = GithubAPI.getArray(githubUrl, Milestone[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return milestones;
+		return GithubAPI.getArray(githubUrl, Milestone[].class);
 	}
 
-	public static Milestone getMilestone(String owner, String repo, String milestoneId) {
+	public static Milestone getMilestone(String owner, String repo, String milestoneId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/milestones/%s", owner, repo, milestoneId);
 
-		Milestone milestones = new Milestone();
-
-		try {
-			milestones = GithubAPI.get(githubUrl, Milestone.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return milestones;
+		return GithubAPI.get(githubUrl, Milestone.class);
 	}
 
-	public static Licenses[] getLicenses() {
+	public static Licenses[] getLicenses() throws MalformedURLException {
 		String githubUrl = "https://api.github.com/licenses";
 
-		Licenses[] licenses = new Licenses[] {};
-
-		try {
-			licenses = GithubAPI.getArray(githubUrl, Licenses[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return licenses;
+		return GithubAPI.getArray(githubUrl, Licenses[].class);
 	}
 
-	public static License getLicense(String licenseName) {
+	public static License getLicense(String licenseName) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/licenses/%s", licenseName);
 
-		License license = new License();
-
-		try {
-			license = GithubAPI.get(githubUrl, License.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return license;
+		return GithubAPI.get(githubUrl, License.class);
 	}
 
-	public static RepoLicense getRepoLicense(String owner, String repo) {
+	public static RepoLicense getRepoLicense(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/license", owner, repo);
 
-		RepoLicense license = new RepoLicense();
-
-		try {
-			license = GithubAPI.get(githubUrl, RepoLicense.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return license;
+		return GithubAPI.get(githubUrl, RepoLicense.class);
 	}
 
-	public static APILinks getAPILinks() {
+	public static APILinks getAPILinks() throws MalformedURLException {
 		String githubUrl = "https://api.github.com/";
 
-		APILinks links = new APILinks();
-
-		try {
-			links = GithubAPI.get(githubUrl, APILinks.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return links;
+		return GithubAPI.get(githubUrl, APILinks.class);
 	}
 
-	public static ServerMeta getServerMeta() {
+	public static ServerMeta getServerMeta() throws MalformedURLException {
 		String githubUrl = "https://api.github.com/meta";
 
-		ServerMeta meta = new ServerMeta();
-
-		try {
-			meta = GithubAPI.get(githubUrl, ServerMeta.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return meta;
+		return GithubAPI.get(githubUrl, ServerMeta.class);
 	}
 
-	public static Organization getOrganization(String orgName) {
+	public static Organization getOrganization(String orgName) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/orgs/%s", orgName);
 
-		Organization org = new Organization();
-
-		try {
-			org = GithubAPI.get(githubUrl, Organization.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return org;
+		return GithubAPI.get(githubUrl, Organization.class);
 	}
 
-	public static UserOrg[] getUserOrgs(String user) {
+	public static UserOrg[] getUserOrgs(String user) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/users/%s/orgs", user);
 
-		UserOrg[] orgs = new UserOrg[] {};
-
-		try {
-			orgs = GithubAPI.getArray(githubUrl, UserOrg[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return orgs;
+		return GithubAPI.getArray(githubUrl, UserOrg[].class);
 	}
 
-	public static User[] getOrgMembers(String orgName) {
+	public static User[] getOrgMembers(String orgName) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/orgs/%s/members", orgName);
 
-		User[] users = new User[] {};
-
-		try {
-			users = GithubAPI.getArray(githubUrl, User[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return users;
+		return GithubAPI.getArray(githubUrl, User[].class);
 	}
 
-	public static PullRequest[] getRepoPulls(String owner, String repo) {
+	public static PullRequest[] getRepoPulls(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls", owner, repo);
 
-		PullRequest[] requests = new PullRequest[] {};
-
-		try {
-			requests = GithubAPI.getArray(githubUrl, PullRequest[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return requests;
+		return GithubAPI.getArray(githubUrl, PullRequest[].class);
 	}
 
-	public static PullRequest getPullRequest(String owner, String repo, String pullId) {
+	public static PullRequest getPullRequest(String owner, String repo, String pullId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s", owner, repo, pullId);
 
-		PullRequest request = new PullRequest();
-
-		try {
-			request = GithubAPI.get(githubUrl, PullRequest.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return request;
+		return GithubAPI.get(githubUrl, PullRequest.class);
 	}
 
-	public static Commit[] getPullCommits(String owner, String repo, String pullId) {
+	public static Commit[] getPullCommits(String owner, String repo, String pullId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/commits", owner, repo, pullId);
 
-		Commit[] commits = new Commit[] {};
-
-		try {
-			commits = GithubAPI.getArray(githubUrl, Commit[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return commits;
+		return GithubAPI.getArray(githubUrl, Commit[].class);
 	}
 
-	public static File[] getPullFiles(String owner, String repo, String pullId) {
+	public static File[] getPullFiles(String owner, String repo, String pullId) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/pulls/%s/files", owner, repo, pullId);
 
-		File[] files = new File[] {};
-
-		try {
-			files = GithubAPI.getArray(githubUrl, File[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return files;
+		return GithubAPI.getArray(githubUrl, File[].class);
 	}
 
-	public static RateLimit getAPIRateLimit() {
+	public static RateLimit getAPIRateLimit() throws MalformedURLException {
 		String githubUrl = "https://api.github.com/rate_limit";
 
-		RateLimit limit = new RateLimit();
-
-		try {
-			limit = GithubAPI.get(githubUrl, RateLimit.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return limit;
+		return GithubAPI.get(githubUrl, RateLimit.class);
 	}
 
 
-	public static Repository[] getOrgRepos(String org) {
+	public static Repository[] getOrgRepos(String org) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/orgs/%s/repos", org);
 
-		Repository[] repos = new Repository[] {};
-
-		try {
-			repos = GithubAPI.getArray(githubUrl, Repository[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return repos;
+		return GithubAPI.getArray(githubUrl, Repository[].class);
 	}
 
-	public static Repository getRepo(String owner, String repo) {
+	public static Repository getRepo(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s", owner, repo);
 
-		Repository repository = new Repository();
-
-		try {
-			repository = GithubAPI.get(githubUrl, Repository.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return repository;
+		return GithubAPI.get(githubUrl, Repository.class);
 	}
 
-	public static Contributor[] getRepoContributors(String owner, String repo) {
+	public static Contributor[] getRepoContributors(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/contributors", owner, repo);
 
-		Contributor[] contributors = new Contributor[] {};
-
-		try {
-			contributors = GithubAPI.getArray(githubUrl, Contributor[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return contributors;
+		return GithubAPI.getArray(githubUrl, Contributor[].class);
 	}
 
-	public static Languages getRepoLanguages(String owner, String repo) {
+	public static Languages getRepoLanguages(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/languages", owner, repo);
 
-		Languages languages = new Languages();
-
-		try {
-			languages = GithubAPI.get(githubUrl, Languages.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return languages;
+		return GithubAPI.get(githubUrl, Languages.class);
 	}
 
-	public static Tag[] getRepoTags(String owner, String repo) {
+	public static Tag[] getRepoTags(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/tags", owner, repo);
 
-		Tag[] tags = new Tag[] {};
-
-		try {
-			tags = GithubAPI.getArray(githubUrl, Tag[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return tags;
+		return GithubAPI.getArray(githubUrl, Tag[].class);
 	}
 
-	public static Topics getRepoTopics(String owner, String repo) {
+	public static Topics getRepoTopics(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/topics", owner, repo);
 
-		Topics topics = new Topics();
-
-		try {
-			topics = GithubAPI.get(githubUrl, Topics.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return topics;
+		return GithubAPI.get(githubUrl, Topics.class);
 	}
 
-	public static Repository[] getUserRepos(String user) {
+	public static Repository[] getUserRepos(String user) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/users/%s/repos", user);
 
-		Repository[] repositories = new Repository[] {};
-
-		try {
-			repositories = GithubAPI.getArray(githubUrl, Repository[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return repositories;
+		return GithubAPI.getArray(githubUrl, Repository[].class);
 	}
 
-	public static BranchList[] getRepoBranches(String owner, String repo) {
+	public static BranchList[] getRepoBranches(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/branches", owner, repo);
 
-		BranchList[] branches = new BranchList[] {};
-
-		try {
-			branches = GithubAPI.getArray(githubUrl, BranchList[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return branches;
+		return GithubAPI.getArray(githubUrl, BranchList[].class);
 	}
 
-	public static fr.kokhaviel.api.github.repo.Commit[] getRepoCommits(String owner, String repo) {
+	public static fr.kokhaviel.api.github.repo.Commit[] getRepoCommits(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/commits", owner, repo);
 
-		fr.kokhaviel.api.github.repo.Commit[] commits = new fr.kokhaviel.api.github.repo.Commit[] {};
-
-		try {
-			commits = GithubAPI.getArray(githubUrl, fr.kokhaviel.api.github.repo.Commit[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return commits;
+		return GithubAPI.getArray(githubUrl, fr.kokhaviel.api.github.repo.Commit[].class);
 	}
 
-	public static Branch getBranch(String owner, String repo, String branchId) {
-		String githubUrl = format("https://api.github.com/repos/%s/%s/branches/%s", owner,repo, branchId);
+	public static Branch getBranch(String owner, String repo, String branchId) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/repos/%s/%s/branches/%s", owner, repo, branchId);
 
-		Branch branch = new Branch();
-		try {
-			branch = GithubAPI.get(githubUrl, Branch.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return branch;
+		return GithubAPI.get(githubUrl, Branch.class);
 	}
 
-	public static fr.kokhaviel.api.github.repo.Commit getCommit(String owner, String repo, String sha) {
+	public static fr.kokhaviel.api.github.repo.Commit getCommit(String owner, String repo, String sha) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/commits/%s", owner, repo, sha);
 
-		fr.kokhaviel.api.github.repo.Commit commit = new fr.kokhaviel.api.github.repo.Commit();
-
-		try {
-			commit = GithubAPI.get(githubUrl, fr.kokhaviel.api.github.repo.Commit.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return commit;
+		return GithubAPI.get(githubUrl, fr.kokhaviel.api.github.repo.Commit.class);
 	}
 
-	public static Repository[] getForks(String owner, String repo) {
+	public static Repository[] getForks(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/forks", owner, repo);
 
-		Repository[] repositories = new Repository[]{};
-
-		try {
-			repositories = GithubAPI.getArray(githubUrl, Repository[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return repositories;
+		return GithubAPI.getArray(githubUrl, Repository[].class);
 	}
 
-	public static Release[] getReleases(String owner, String repo) {
+	public static Release[] getReleases(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/releases", owner, repo);
 
-		Release[] releases = new Release[]{};
-
-		try {
-			releases = GithubAPI.getArray(githubUrl, Release[].class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return releases;
+		return GithubAPI.getArray(githubUrl, Release[].class);
 	}
 
-	public static Release getRelease(String owner, String repo, String name) {
+	public static Release getRelease(String owner, String repo, String name) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/releases/tags/%s", owner, repo, name);
 
-		Release release = new Release();
-
-		try {
-			release = GithubAPI.get(githubUrl, Release.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return release;
+		return GithubAPI.get(githubUrl, Release.class);
 	}
 
-	public static Release getLastestRelease(String owner, String repo) {
+	public static Release getLatestRelease(String owner, String repo) throws MalformedURLException {
 		String githubUrl = format("https://api.github.com/repos/%s/%s/releases/latest", owner, repo);
 
-		Release release = new Release();
+		return GithubAPI.get(githubUrl, Release.class);
+	}
 
-		try {
-			release = GithubAPI.get(githubUrl, Release.class);
-		} catch(MalformedURLException e) {
-			e.printStackTrace();
+	public static CodeSearch searchCode(String search, String lang, String owner, String repo) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/search/code?q=%s+in:file+language:%s+repo:%s/%s",
+				search.replace(" ", "%20"),
+				lang.replace(" ", "%20"), owner, repo);
+
+		return GithubAPI.get(githubUrl, CodeSearch.class);
+	}
+
+	public static CommitSearch searchCommit(String search, String owner, String repo) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/search/commits?q=repo:%s/%s+%s",
+				owner, repo, search.replace(" ", "%20"));
+
+		return GithubAPI.get(githubUrl, CommitSearch.class);
+	}
+
+	public static IssueSearch searchIssue(String search, String lang,
+										  String owner, String repo, IssueStatus status) throws MalformedURLException {
+
+		StringBuilder githubUrl = new StringBuilder("https://api.github.com/search/issues?q=");
+		githubUrl.append(search).append("+language:").append(lang);
+		githubUrl.append(format("+repo:%s/%s", owner,repo));
+		switch(status) {
+			case OPENED:
+				githubUrl.append("+state:open");
+				break;
+			case CLOSED:
+				githubUrl.append("+state:closed");
+				break;
 		}
+		githubUrl.append("&sort=created&order=asc");
 
-		return release;
+		return GithubAPI.get(githubUrl.toString(), IssueSearch.class);
+	}
+
+	public static ReposSearch searchRepos(String repo, String lang) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/search/repositories?q=%s+language:%s&sort=stars&order=desc", repo, lang);
+
+		return GithubAPI.get(githubUrl, ReposSearch.class);
+	}
+
+	public static UserSearch searchUser(String user, int minimumRepos, int minimumFollowers) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/search/users?q=%s+repos:%s+followers:%s&sort=desc",
+				user, "%3E" + minimumRepos, "%3E" + minimumFollowers);
+
+		return GithubAPI.get(githubUrl, UserSearch.class);
+	}
+
+	public static User[] getUsers() throws MalformedURLException {
+		String githubUrl = "https://api.github.com/users?sort=desc";
+
+		return GithubAPI.getArray(githubUrl, User[].class);
+	}
+
+	public static User getUser(String username) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/users/%s", username);
+
+		return GithubAPI.get(githubUrl, User.class);
+	}
+
+	public static Follower[] getFollowers(String username) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/users/%s/followers", username);
+
+		return GithubAPI.getArray(githubUrl, Follower[].class);
+	}
+
+	public static Follower[] getFollowing(String username) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/users/%s/following", username);
+
+		return GithubAPI.getArray(githubUrl, Follower[].class);
+	}
+
+	public static SSHKey[] getUserSSHKeys(String username) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/users/%s/keys", username);
+
+		return GithubAPI.getArray(githubUrl, SSHKey[].class);
+	}
+
+	public static GPGKey[] getUserGPGKeys(String username) throws MalformedURLException {
+		String githubUrl = format("https://api.github.com/users/%s/gpg_keys", username);
+
+		return GithubAPI.getArray(githubUrl, GPGKey[].class);
 	}
 
 	private static <T> T get(String url, Class<T> classOfT) throws IllegalStateException, MalformedURLException {
@@ -805,6 +506,12 @@ public final class GithubAPI {
 
 	@Override
 	public String toString() {
-		return "GithubAPI by Kokhaviel{}";
+		return "GithubAPI {\n" +
+				"Author : Kokhaviel\n" +
+				"Discord : Kokhaviel.java#2192" +
+ 				"Github : github.com/Kokhaviel\n" +
+				"License : Apache 2.0\n" +
+				"Libraries : Gson" +
+				"}";
 	}
 }

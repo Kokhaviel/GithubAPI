@@ -15,10 +15,17 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class CodeOfConductsTests {
 
 	public static void main(String[] args) {
-		System.out.println(GithubAPI.getCodeOfConduct("torvalds", "linux").getApiUrl());
+		try {
+			System.out.println(GithubAPI.getCodeOfConduct("torvalds", "linux").getApiUrl());
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

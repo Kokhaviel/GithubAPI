@@ -15,11 +15,19 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class GitignoreTests {
 
 	public static void main(String[] args) {
-		System.out.println("Java :\n" + GithubAPI.getGitignore("Java").getTemplate());
-		System.out.println("C : \n" + GithubAPI.getGitignore("C").getTemplate());
+		try {
+			System.out.println("Java :\n" + GithubAPI.getGitignore("Java").getTemplate());
+			System.out.println("C : \n" + GithubAPI.getGitignore("C").getTemplate());
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

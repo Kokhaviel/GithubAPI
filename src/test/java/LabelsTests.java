@@ -16,7 +16,9 @@
 
 import fr.kokhaviel.api.github.GithubAPI;
 import fr.kokhaviel.api.github.issues.Label;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,15 +26,20 @@ import java.util.List;
 public class LabelsTests {
 
 	public static void main(String[] args) {
-		final Label[] labels = GithubAPI.getIssueLabels("git", "git", "1120");
-		final List<Label> labelsList = new ArrayList<>(Arrays.asList(labels));
-		labelsList.forEach(label -> System.out.println("[" + label.getColor() + "] " + label.getName() + " : " + label.getDescription()));
+		try {
+			final Label[] labels = GithubAPI.getIssueLabels("git", "git", "1120");
+			final List<Label> labelsList = new ArrayList<>(Arrays.asList(labels));
+			labelsList.forEach(label -> System.out.println("[" + label.getColor() + "] " + label.getName() + " : " + label.getDescription()));
 
-		final Label[] repoLabels = GithubAPI.getRepoLabels("git", "git");
-		final List<Label> repoLabelsList = new ArrayList<>(Arrays.asList(repoLabels));
-		repoLabelsList.forEach(label -> System.out.println("[" + label.getColor() + "] " + label.getName() + " : " + label.getDescription()));
+			final Label[] repoLabels = GithubAPI.getRepoLabels("git", "git");
+			final List<Label> repoLabelsList = new ArrayList<>(Arrays.asList(repoLabels));
+			repoLabelsList.forEach(label -> System.out.println("[" + label.getColor() + "] " + label.getName() + " : " + label.getDescription()));
 
-		final Label label = GithubAPI.getLabel("git", "git", "new%20user");
-		System.out.println("[" + label.getColor() + "] " + label.getName() + " : " + label.getDescription());
+			final Label label = GithubAPI.getLabel("git", "git", "new%20user");
+			System.out.println("[" + label.getColor() + "] " + label.getName() + " : " + label.getDescription());
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

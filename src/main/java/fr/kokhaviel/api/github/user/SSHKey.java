@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.apps.App;
-import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+package fr.kokhaviel.api.github.user;
 
-import java.net.MalformedURLException;
+import com.google.gson.annotations.SerializedName;
 
-public class AppTests {
+public class SSHKey {
 
-	public static void main(String[] args) {
-		try {
+	@SerializedName("id")
+	long id;
 
-			final App app = GithubAPI.getApp("octocat");
-			System.out.println(app.getCreation());
+	@SerializedName("key")
+	String key;
 
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
-		}
+	public long getId() {
+		return id;
+	}
+
+	public String getKey() {
+		return key;
 	}
 }

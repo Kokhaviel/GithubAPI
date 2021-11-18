@@ -17,7 +17,9 @@
 import fr.kokhaviel.api.github.GithubAPI;
 import fr.kokhaviel.api.github.issues.Comment;
 import fr.kokhaviel.api.github.issues.Issue;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,20 +28,26 @@ public class IssuesTests {
 
 	public static void main(String[] args) {
 
-		final Issue[] issues = GithubAPI.getRepoIssues("torvalds", "linux");
-		final List<Issue> issueList = new ArrayList<>(Arrays.asList(issues));
-		issueList.forEach(issue -> System.out.println(issue.getNumber() + " : " + issue.getTitle() + "\n"));
+		try {
+
+			final Issue[] issues = GithubAPI.getRepoIssues("torvalds", "linux");
+			final List<Issue> issueList = new ArrayList<>(Arrays.asList(issues));
+			issueList.forEach(issue -> System.out.println(issue.getNumber() + " : " + issue.getTitle() + "\n"));
 
 
-		final Issue issue = GithubAPI.getIssue("torvalds", "linux", "805");
-		System.out.println(issue.getState() + " : " + issue.getTitle() + "\n");
+			final Issue issue = GithubAPI.getIssue("torvalds", "linux", "805");
+			System.out.println(issue.getState() + " : " + issue.getTitle() + "\n");
 
 
-		final Comment[] comments = GithubAPI.getRepoComments("torvalds", "linux");
-		List<Comment> commentsList = new ArrayList<>(Arrays.asList(comments));
-		commentsList.forEach(comment -> System.out.println(comment.getIssueUrl() + " : " + comment.getBody()));
+			final Comment[] comments = GithubAPI.getRepoComments("torvalds", "linux");
+			List<Comment> commentsList = new ArrayList<>(Arrays.asList(comments));
+			commentsList.forEach(comment -> System.out.println(comment.getIssueUrl() + " : " + comment.getBody()));
 
-		final Comment comment = GithubAPI.getComment("torvalds", "linux", "2006786");
-		System.out.println(comment.getAuthor().getLogin() + " : " + comment.getBody());
+			final Comment comment = GithubAPI.getComment("torvalds", "linux", "2006786");
+			System.out.println(comment.getAuthor().getLogin() + " : " + comment.getBody());
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

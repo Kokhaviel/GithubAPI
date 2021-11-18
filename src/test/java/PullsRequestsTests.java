@@ -16,7 +16,9 @@
 
 import fr.kokhaviel.api.github.GithubAPI;
 import fr.kokhaviel.api.github.pulls.PullRequest;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,10 +26,14 @@ import java.util.List;
 public class PullsRequestsTests {
 
 	public static void main(String[] args) {
-		final PullRequest[] repoPulls = GithubAPI.getRepoPulls("torvalds", "linux");
-		final List<PullRequest> pullRequests = new ArrayList<>(Arrays.asList(repoPulls));
-		pullRequests.forEach(pullRequest -> System.out.println(pullRequest.getCreation() + " : " + pullRequest.getTitle()));
+		try {
+			final PullRequest[] repoPulls = GithubAPI.getRepoPulls("torvalds", "linux");
+			final List<PullRequest> pullRequests = new ArrayList<>(Arrays.asList(repoPulls));
+			pullRequests.forEach(pullRequest -> System.out.println(pullRequest.getCreation() + " : " + pullRequest.getTitle()));
 
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 
 	}
 }

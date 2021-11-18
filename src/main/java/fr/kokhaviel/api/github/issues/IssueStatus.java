@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.apps.App;
-import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+package fr.kokhaviel.api.github.issues;
 
-import java.net.MalformedURLException;
+public enum IssueStatus {
 
-public class AppTests {
-
-	public static void main(String[] args) {
-		try {
-
-			final App app = GithubAPI.getApp("octocat");
-			System.out.println(app.getCreation());
-
-		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
-		}
-	}
+	OPENED,
+	CLOSED
 }

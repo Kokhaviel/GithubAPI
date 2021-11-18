@@ -15,21 +15,27 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.repo.Commit;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 
 import java.net.MalformedURLException;
+import java.util.Arrays;
 
-public class CommitsTests {
+public class UserTests {
 
 	public static void main(String[] args) {
 		try {
-			final Commit commit = GithubAPI.getCommit("torvalds", "linux", "05d5da3cb11c91c39e607066d3313a6ce621796a");
-			System.out.println(commit.getCommitter().getLogin() + " : " + commit.getCommit().getMessage());
-			System.out.println(commit.getSha());
+			System.out.println(GithubAPI.getUser("Kokhaviel").getBio());
+
+			Arrays.asList(GithubAPI.getFollowers("Kokhaviel")).forEach(follower -> System.out.println(follower.getLogin()));
+
+			Arrays.asList(GithubAPI.getFollowing("Kokhaviel")).forEach(follower -> System.out.println(follower.getLogin()));
+
+			Arrays.asList(GithubAPI.getUserSSHKeys("Kokhaviel")).forEach(sshKey -> System.out.println(sshKey.getKey()));
+
+			Arrays.asList(GithubAPI.getUserGPGKeys("Kokhaviel")).forEach(gpgKey -> System.out.println(gpgKey.getPublicKey()));
 
 		} catch(MalformedURLException e) {
-			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+			throw new GithubAPIException("Cannot access data : " + e.getMessage());
 		}
 	}
 }

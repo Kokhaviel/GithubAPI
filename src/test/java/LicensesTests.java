@@ -18,7 +18,9 @@ import fr.kokhaviel.api.github.GithubAPI;
 import fr.kokhaviel.api.github.licenses.License;
 import fr.kokhaviel.api.github.licenses.Licenses;
 import fr.kokhaviel.api.github.licenses.RepoLicense;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,16 +28,20 @@ import java.util.List;
 public class LicensesTests {
 
 	public static void main(String[] args) {
-		final Licenses[] licenses = GithubAPI.getLicenses();
-		List<Licenses> licensesList = new ArrayList<>(Arrays.asList(licenses));
-		licensesList.forEach(license -> System.out.println(license.getName()  + " : " + license.getUrl() + "\n"));
+		try {
+			final Licenses[] licenses = GithubAPI.getLicenses();
+			List<Licenses> licensesList = new ArrayList<>(Arrays.asList(licenses));
+			licensesList.forEach(license -> System.out.println(license.getName() + " : " + license.getUrl() + "\n"));
 
 
+			final License license = GithubAPI.getLicense("apache-2.0");
+			System.out.println(license.getName() + " : " + license.getBody() + "\n");
 
-		final License license = GithubAPI.getLicense("apache-2.0");
-		System.out.println(license.getName() + " : " + license.getBody() + "\n");
+			RepoLicense repoLicense = GithubAPI.getRepoLicense("Kokhaviel", "HypixelAPI");
+			System.out.println(repoLicense.getName() + " : " + repoLicense.getUrl());
 
-		RepoLicense repoLicense = GithubAPI.getRepoLicense("Kokhaviel", "HypixelAPI");
-		System.out.println(repoLicense.getName() + " : " + repoLicense.getUrl());
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

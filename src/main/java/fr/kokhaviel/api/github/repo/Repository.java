@@ -21,6 +21,9 @@ import fr.kokhaviel.api.github.user.User;
 
 import java.util.List;
 
+/**
+ * Note : Some Fields are not filled with {@link fr.kokhaviel.api.github.GithubAPI#searchCode(String, String, String, String)}
+ */
 public final class Repository {
 
 	@SerializedName("id")

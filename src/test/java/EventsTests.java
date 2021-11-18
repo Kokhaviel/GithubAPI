@@ -15,15 +15,25 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class EventsTests {
 
 	public static void main(String[] args) {
 
-		GithubAPI.getAccountEvents("Kokhaviel").getEvents().forEach(event -> System.out.println(event.getType()));
+		try {
 
-		GithubAPI.getRepoEvents("Kokhaviel", "HypixelAPI").getEvents().forEach(event -> System.out.println(event.getType()));
+			GithubAPI.getAccountEvents("Kokhaviel").getEvents().forEach(event -> System.out.println(event.getType()));
 
-		GithubAPI.getOrganisationEvents("DROPCitizenShip").getEvents().forEach(event -> System.out.println(event.getType()));
+			GithubAPI.getRepoEvents("Kokhaviel", "HypixelAPI").getEvents().forEach(event -> System.out.println(event.getType()));
+
+			GithubAPI.getOrganisationEvents("DROPCitizenShip").getEvents().forEach(event -> System.out.println(event.getType()));
+
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

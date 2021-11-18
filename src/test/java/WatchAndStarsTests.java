@@ -15,17 +15,27 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class WatchAndStarsTests {
 
 	public static void main(String[] args) {
 
-		GithubAPI.getRepoStargazers("Kokhaviel", "Mee7").getStargazers().forEach(stargazer -> System.out.println(stargazer.getLogin()));
+		try {
 
-		GithubAPI.getRepoStarred("Kokhaviel").getStars().forEach(star -> System.out.println(star.getFullName()));
+			GithubAPI.getRepoStargazers("Kokhaviel", "Mee7").getStargazers().forEach(stargazer -> System.out.println(stargazer.getLogin()));
 
-		GithubAPI.getRepoWatchers("torvalds", "linux").getWatchers().forEach(watcher -> System.out.println(watcher.getLogin()));
+			GithubAPI.getRepoStarred("Kokhaviel").getStars().forEach(star -> System.out.println(star.getFullName()));
 
-		GithubAPI.getWatchingRepo("Kokhaviel").getWatches().forEach(watch -> System.out.println(watch.getFullName()));
+			GithubAPI.getRepoWatchers("torvalds", "linux").getWatchers().forEach(watcher -> System.out.println(watcher.getLogin()));
+
+			GithubAPI.getWatchingRepo("Kokhaviel").getWatches().forEach(watch -> System.out.println(watch.getFullName()));
+
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

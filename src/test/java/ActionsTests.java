@@ -15,12 +15,20 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class ActionsTests {
 
 	public static void main(String[] args) {
-		GithubAPI.getRepoArtifacts("octocat", "hello-world").getArtifacts().forEach(artifact -> System.out.println(artifact.getName()));
+		try {
+			GithubAPI.getRepoArtifacts("octocat", "hello-world").getArtifacts().forEach(artifact -> System.out.println(artifact.getName()));
 
-		GithubAPI.getRepoWorkFlows("octocat", "hello-world").getWorkFlows().forEach(workFlow -> System.out.println(workFlow.getName()));
+			GithubAPI.getRepoWorkFlows("octocat", "hello-world").getWorkFlows().forEach(workFlow -> System.out.println(workFlow.getName()));
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }

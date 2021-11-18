@@ -15,18 +15,30 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
-import fr.kokhaviel.api.github.repo.Commit;
+import fr.kokhaviel.api.github.issues.IssueStatus;
 import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
 
 import java.net.MalformedURLException;
 
-public class CommitsTests {
+public class SearchesTests {
 
 	public static void main(String[] args) {
 		try {
-			final Commit commit = GithubAPI.getCommit("torvalds", "linux", "05d5da3cb11c91c39e607066d3313a6ce621796a");
-			System.out.println(commit.getCommitter().getLogin() + " : " + commit.getCommit().getMessage());
-			System.out.println(commit.getSha());
+
+			GithubAPI.searchCode("api", "java", "Kokhaviel", "HypixelAPI").getItems()
+					.forEach(codeItem -> System.out.println(codeItem.getPath()));
+
+			GithubAPI.searchCommit("Add", "Kokhaviel", "HypixelAPI").getItems()
+					.forEach(commitItem -> System.out.println(commitItem.getCommit().getMessage()));
+
+			GithubAPI.searchIssue("fix", "c", "torvalds", "linux", IssueStatus.OPENED).getItems()
+					.forEach(issueItem -> System.out.println(issueItem.getTitle()));
+
+			GithubAPI.searchRepos("linux", "c").getItems()
+					.forEach(repoItem -> System.out.println(repoItem.getFullName()));
+
+			GithubAPI.searchUser("torvalds", 0, 0).getItems()
+					.forEach(user -> System.out.println(user.getLogin()));
 
 		} catch(MalformedURLException e) {
 			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());

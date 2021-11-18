@@ -15,10 +15,19 @@
  */
 
 import fr.kokhaviel.api.github.GithubAPI;
+import fr.kokhaviel.api.github.util.exceptions.GithubAPIException;
+
+import java.net.MalformedURLException;
 
 public class MetaTests {
 
 	public static void main(String[] args) {
-		GithubAPI.getServerMeta().getApi().forEach(System.out::println);
+		try {
+			GithubAPI.getServerMeta().getApi().forEach(System.out::println);
+
+
+		} catch(MalformedURLException e) {
+			throw new GithubAPIException("Cannot Access Data : " + e.getMessage());
+		}
 	}
 }
